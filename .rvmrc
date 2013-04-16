@@ -1,0 +1,10 @@
+# -*- mode: sh -*-
+
+# export rvm_gemset_create_on_use_flag=1
+export rvm_trust_rvmrcs_flag=1
+export rvm_project_rvmrc=1
+export rvm_pretty_print_flag=1
+export rvm_path="$HOME/.rvm"
+export rvm_bin_path="$rvm_path/bin"
+export rvm_man_path="$rvm_path/share/man"
+rvm_auto_reload_flag=2

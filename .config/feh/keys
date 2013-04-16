@@ -1,0 +1,18 @@
+# -*- mode: conf -*-
+
+save_filelist
+action_0
+
+quit q Escape
+toggle_menu m
+toggle_fullscreen f Return
+next_img n space
+prev_img p
+save_image C-s
+delete Delete
+remove C-Delete
+
+scroll_up Down
+scroll_down Up
+scroll_left Right
+scroll_right Left

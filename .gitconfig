@@ -1,0 +1,60 @@
+# -*- mode: conf -*-
+
+[user]
+name = Victor Deryagin
+email = vderyagin@gmail.com
+signingKey = 279C2900
+
+[color]
+ui = auto
+
+[core]
+excludesFile = ~/.git_exclude_global
+editor = em
+askpass = ssh-askpass-fullscreen
+
+[help]
+autocorrect = 1
+
+[status]
+submodule = 1
+
+[apply]
+whitespace = warn
+
+[push]
+default = simple
+
+[magit]
+extension = wip-save
+
+[sendEmail]
+from = vderyagin@gmail.com
+smtpEncryption = tls
+smtpServer = smtp.gmail.com
+smtpServerPort = 587
+smtpUser = vderyagin
+
+[alias]
+st = status --short
+co = checkout
+ci = commit
+br = branch
+
+glog = log --graph --all
+l = log --graph --all  --abbrev-commit --date=relative --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset'
+
+prominent-commits = !git l --simplify-by-decoration
+
+type = cat-file -t
+dump = cat-file -p
+
+unstage = reset HEAD --
+staged = diff --cached
+unstaged = diff
+
+history = log --follow --patch
+track = checkout -t
+
+[include]
+path = ~/.github_credentials

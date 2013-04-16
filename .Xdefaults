@@ -1,0 +1,65 @@
+*FontBackend:               xft
+Xft*antialias:              true
+Xft*autohint:               true
+Xft.dpi:                    96
+Xcursor*theme:              vanilla
+
+
+URxvt.perl-ext-common:  default,matcher
+URxvt.url-launcher:     firefox
+URxvt.matcher.button:   2
+
+URxvt*font:                 xft:Consolas:Regular:pixelsize=15
+URxvt*boldFont:             xft:Consolas:Bold:pixelsize=15
+URxvt*italicFont:           xft:Consolas:Italic:pixelsize=15
+
+*cursorBlink:               False
+URxvt*transparent:          False
+URxvt*urgentOnBell:         True
+URxvt*visualBell:           False
+URxvt*scrollBar:            False
+URxvt*pastableTabs:         True
+URxvt*buffered:             True
+Urxvt*saveLines:            0
+
+URxvt*fading:               20
+URxvt*fadeColor:            #e5e5e5
+
+URxvt*mouseWheelScrollPage: False
+URxvt*scrollTtyKeypress:    True
+URxvt*scrollTtyOutput:      False
+URxvt*scrollWithBuffer:     False
+URxvt*scrollstyle:          plain
+URxvt*secondaryScreen:      True
+URxvt*secondaryScroll:      False
+URxvt*jumpScroll:           True
+URxvt*skipScroll:           True
+
+URxvt*externalBorder:       0
+URxvt*internalBorder:       1
+
+*foreground:                #333333
+*background:                #e5e5e5
+URxvt*color0:               #333333
+URxvt*color1:               #7f1515
+URxvt*color2:               #509f50
+URxvt*color3:               #aeae00
+URxvt*color4:               #2e5aa7
+URxvt*color5:               #7a3e9d
+URxvt*color6:               #5eadd1
+URxvt*color7:               #999999
+URxvt*color8:               #666666
+URxvt*color9:               #bd4747
+URxvt*color10:              #47996C
+URxvt*color11:              #de9000
+URxvt*color12:              #073190
+URxvt*color13:              #a852b7
+URxvt*color14:              #20a3b0
+URxvt*color15:              #ffffff
+
+
+Emacs*font:                 Consolas-12
+Emacs*verticalScrollBars:   off
+Emacs*menuBar:              off
+Emacs*toolBar:              0
+Emacs*cursorBlink:          off

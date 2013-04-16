@@ -1,0 +1,17 @@
+# -*- mode: conf -*-
+
+[ui]
+username = Victor Deryagin <vderyagin@gmail.com>
+ssh = ssh -C
+editor = em
+
+[extensions]
+color =
+convert =
+graphlog =
+hgext.bookmarks =
+hggit =
+mq =
+
+[web]
+cacerts = /etc/ssl/certs/ca-certificates.crt

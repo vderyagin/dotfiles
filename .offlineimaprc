@@ -1,0 +1,23 @@
+# -*- mode: conf -*-
+
+[general]
+accounts = Gmail
+maxsyncaccounts = 3
+pythonfile = ~/.offlineimap.py
+ui = basic
+
+[Account Gmail]
+localrepository = Local
+remoterepository = Remote
+
+[Repository Local]
+type = Maildir
+localfolders = ~/vderyagin@gmail.com
+
+[Repository Remote]
+type = Gmail
+sslcacertfile = /etc/ssl/certs/ca-certificates.crt
+readonly = True
+remotepasseval = get_password()
+remoteuser = vderyagin@gmail.com
+folderfilter = lambda foldername: foldername not in ['[Gmail]/All Mail', '[Gmail]/Trash']
