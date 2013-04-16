@@ -1,18 +1,21 @@
-// Copyright (C) 2011 by
-// ========================== KeySnail Init File =========================== //
-
-// You can preserve your code in this area when generating the init file using GUI.
-// Put all your code except special key, set*key, hook, blacklist.
-// ========================================================================= //
 //{{%PRESERVE%
-/*jshint strict:false*/
+
+/* jshint strict: false, esnext: true */
+
+/* global BrowserBack, BrowserCloseTabOrWindow, BrowserForward,
+ BrowserOpenFileWindow, BrowserReload, KeyEvent, KeySnail,
+ OpenBrowserWindow, _content, closeWindow, command, display, ext, gBrowser,
+ getBrowser, goDoCommand, goQuitApplication, hook, key, openHelpLink,
+ plugins, saveDocument, shell, toJavaScriptConsole, undoCloseTab,
+ userscript, util, prompt */
+
 plugins.options['hok.hint_keys'] = 'asdfghjklqwertyuiopzxcvbnm';
 
 key.setEditKey(['C-c', 'e'], function (ev, arg) {
   ext.exec('edit_text', arg, ev);
 }, 'edit in emacs', true);
 
-plugins.options['K2Emacs.editor'] = '/usr/bin/emacsclient -c -a""';
+plugins.options['K2Emacs.editor'] = '/usr/bin/emacsclient -c -a ""';
 plugins.options['K2Emacs.ext'] = 'txt';
 plugins.options['K2Emacs.encode'] = 'UTF-8';
 plugins.options['K2Emacs.sep'] = '/';
