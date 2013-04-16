@@ -1,6 +1,6 @@
 # Use UTF-8 as the source file encoding.
 Encoding:
-  Enabled: true
+  Enabled: false
 
 # Limit lines to 80 characters.
 LineLength:
