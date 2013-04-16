@@ -1,3 +1,5 @@
+// -*- mode: js -*-
+
 {
   // Enforcing Options:
 
@@ -25,10 +27,10 @@
 
   "es5": true,
 
-   "predef": [
-     "Backbone", "_",
-     "window",
-     "Ember",
-     "jQuery", "$"
+  "predef": [
+    "Backbone", "_",
+    "window",
+    "Ember",
+    "jQuery", "$"
   ]
 }
