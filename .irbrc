@@ -1,9 +1,13 @@
 # -*- mode: ruby -*-
 
-def __require_maybe(lib)
-  require lib
-rescue LoadError
-  warn "library '#{lib}' can not be loaded"
+[
+  'awesome_print',
+  'interactive_editor',
+  'pp',
+].each do |library|
+  begin
+    require library
+  rescue LoadError
+    warn "library '#{lib}' can not be loaded"
+  end
 end
-
-%w(pp awesome_print interactive_editor).each &method(:__require_maybe)
