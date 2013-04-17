@@ -186,3 +186,15 @@ AvoidClassVars:
 # Symbol literals should use snake_case.
 SymbolSnakeCase:
   Enabled: true
+
+# Don't interpolate global, instance and class variables directly in strings.
+VariableInterpolation:
+  Enabled: true
+
+# Don't use semicolons to terminate expressions.
+Semicolon:
+  Enabled: true
+
+# Use sprintf instead of %
+FavorSprintf:
+  Enabled: true
