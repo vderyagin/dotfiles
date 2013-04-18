@@ -202,3 +202,15 @@ FavorSprintf:
 # Use alias_method instead of alias.
 Alias:
   Enabled: true
+
+# Avoid using rescue in its modifier form.
+RescueModifier:
+  Enabled: true
+
+# Avoid the use of %q, %Q, %s and %x.
+PercentLiterals:
+  Enabled: true
+
+# Prefer () as delimiters for all % literals.
+BraceAfterPercent:
+  Enabled: true
