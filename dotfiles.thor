@@ -4,6 +4,17 @@ class Dotfiles < Thor
   DOT_ROOT = Pathname.new(File.expand_path('..', __FILE__))
   HOME = Pathname.new(Dir.home)
 
+  desc 'list', 'list managed files'
+  def list
+    Pathname.glob(DOT_ROOT + '**/*', File::FNM_DOTMATCH).select { |file|
+      rel_path = file.relative_path_from(DOT_ROOT)
+      link = HOME + rel_path
+      link.symlink? && link.readlink == file
+    }.each do |file|
+      puts "~/#{file.relative_path_from(DOT_ROOT)}"
+    end
+  end
+
   desc 'add FILENAME...', 'add files to repository'
   def add(*filenames)
     original_locations = filenames.map do |fn|
