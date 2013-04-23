@@ -7,6 +7,12 @@ LineLength:
   Enabled: true
   Max: 79
 
+# Avoid methods longer than 10 lines of code
+MethodLength:
+  Enabled: true
+  CountComments: false  # count full line comments?
+  Max: 65
+
 # No hard tabs.
 Tab:
   Enabled: true
@@ -213,4 +219,44 @@ PercentLiterals:
 
 # Prefer () as delimiters for all % literals.
 BraceAfterPercent:
+  Enabled: true
+
+# Never use return in an ensure block.
+EnsureReturn:
+  Enabled: true
+
+# Don't suppress exception.
+HandleExceptions:
+  Enabled: true
+
+# Use only ascii symbols in identifiers and comments.
+AsciiIdentifiersAndComments:
+  Enabled: true
+
+# Avoid rescuing the Exception class.
+RescueException:
+  Enabled: true
+
+# Prefer array literal to Array.new.
+ArrayLiteral:
+  Enabled: true
+
+# Prefer hash {} literail to Hash.new.
+HashLiteral:
+  Enabled: true
+
+# When defining binary operators, name the argument other.
+OpMethod:
+  Enabled: true
+
+# Name reduce arguments |a, e| (accumulator, element)
+ReduceArguments:
+  Enabled: true
+
+# Use %r only for regular expressions matching more than one '/' character.
+PercentR:
+  Enabled: true
+
+# Use %r for regular expressions matching more than one '/' character.
+FavorPercentR:
   Enabled: true
