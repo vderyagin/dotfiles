@@ -22,10 +22,14 @@ TrailingWhitespace:
   Enabled: true
 
 # Indent when as deep as case.
-Indentation:
+CaseIndentation:
   Enabled: true
 
 # Use empty lines between defs.
+EmptyLineBetweenDefs:
+  Enabled: true
+
+# Don't use several empty lines in a row.
 EmptyLines:
   Enabled: true
 
@@ -200,9 +204,17 @@ VariableInterpolation:
 # Don't use semicolons to terminate expressions.
 Semicolon:
   Enabled: true
+  # For example; def area(height, width); height * width end
+  AllowAfterParameterListInOneLineMethods: false
+  # For example; def area(height, width) height * width; end
+  AllowBeforeEndInOneLineMethods: true
 
-# Use sprintf instead of %
+# Use sprintf instead of String#%.
 FavorSprintf:
+  Enabled: true
+
+# Use Array#join instead of Array#*.
+FavorJoin:
   Enabled: true
 
 # Use alias_method instead of alias.
@@ -229,9 +241,17 @@ EnsureReturn:
 HandleExceptions:
   Enabled: true
 
-# Use only ascii symbols in identifiers and comments.
-AsciiIdentifiersAndComments:
+# Use only ascii symbols in identifiers.
+AsciiIdentifiers:
   Enabled: true
+
+# Use only ascii symbols in comments.
+AsciiComments:
+  Enabled: true
+
+# Do not use block comments.
+BlockComments:
+  Enabled: false
 
 # Avoid rescuing the Exception class.
 RescueException:
@@ -259,4 +279,30 @@ PercentR:
 
 # Use %r for regular expressions matching more than one '/' character.
 FavorPercentR:
+  Enabled: true
+
+# Use self when defining module/class methods.
+ClassMethods:
+  Enabled: true
+
+# Avoid single-line methods.
+SingleLineMethods:
+  Enabled: true
+  AllowIfMethodIsEmpty: true
+
+# Use %w or %W for arrays of words.
+WordArray:
+  Enabled: true
+
+# Use %i or %I for arrays of symbols.
+SymbolArray:
+  Enabled: false
+
+# Use spaces inside hash literal braces - or don't.
+SpaceInsideHashLiteralBraces:
+  Enabled: true
+  EnforcedStyleIsWithSpaces: true
+
+# Avoid the use of line continuation (/).
+LineContinuation:
   Enabled: true
