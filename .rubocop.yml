@@ -306,3 +306,32 @@ SpaceInsideHashLiteralBraces:
 # Avoid the use of line continuation (/).
 LineContinuation:
   Enabled: true
+
+# Prefer attr_* methods to trivial readers/writers.
+TrivialAccessors:
+  Enabled: true
+
+# Comments should start with a space.
+LeadingCommentSpace:
+  Enabled: true
+
+# Do not use :: for method invocation.
+ColonMethodCall:
+  Enabled: true
+
+# Do not introduce global variables.
+AvoidGlobalVars:
+  Enabled: true
+
+# The use of eval represents a serious security risk.
+Eval:
+  Enabled: true
+
+# Symbol literals should use snake_case.
+SymbolName:
+  Enabled: true
+  AllowCamelCase: false
+
+# Use %i or %I for arrays of symbols.
+SymbolArray:
+  Enabled: false
