@@ -17,21 +17,11 @@ class Dotfiles < Thor
 
   desc 'add FILENAME...', 'add files to repository'
   def add(*filenames)
-    original_locations = filenames.map do |fn|
-      Pathname.new(File.expand_path(fn))
-    end
+    filenames.each do |fn|
+      original = Pathname.new(File.expand_path(fn))
+      new = DOT_ROOT + original.relative_path_from(HOME)
 
-    check_if_all_exist original_locations
-
-    new_locations = original_locations.map do |ol|
-      DOT_ROOT + ol.relative_path_from(HOME)
-    end
-
-    original_locations.zip(new_locations) do |o, n|
-      n.dirname.mkpath unless n.dirname.exist?
-
-      o.rename n
-      o.make_symlink n
+      move_and_link original, new
     end
   end
 
@@ -117,5 +107,16 @@ class Dotfiles < Thor
       exit 1
     end
 
+    def move_and_link(source, new_location)
+      unless source.exist?
+        say "file #{source} does not exist", :red
+        return
+      end
+
+      new_location.dirname.mkpath
+
+      source.rename new_location
+      source.make_symlink new_location
+    end
   end
 end
