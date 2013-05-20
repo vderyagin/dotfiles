@@ -7,11 +7,9 @@ class Dotfiles < Thor
   desc 'list', 'list managed files'
   def list
     Pathname.glob(DOT_ROOT + '**/*', File::FNM_DOTMATCH).select { |file|
-      rel_path = file.relative_path_from(DOT_ROOT)
-      link = HOME + rel_path
-      link.symlink? && link.readlink == file
+      linking_valid?(HOME + file.relative_path_from(DOT_ROOT), file)
     }.each do |file|
-      puts "~/#{file.relative_path_from(DOT_ROOT)}"
+      say "~/#{file.relative_path_from(DOT_ROOT)}"
     end
   end
 
@@ -27,24 +25,11 @@ class Dotfiles < Thor
 
   desc 'remove FILENAME...', 'remove files from repository'
   def remove(*filenames)
-    locations = filenames.map do |fn|
-      Pathname.new(File.expand_path(fn))
-    end
+    filenames.each do |fn|
+      location = Pathname.new(File.expand_path(fn))
+      old = HOME + location.relative_path_from(DOT_ROOT)
 
-    check_if_all_exist locations
-    check_if_all_managed locations
-
-    old_locations = locations.map do |loc|
-      HOME + loc.relative_path_from(DOT_ROOT)
-    end
-
-    check_all_symlinks(old_locations, locations)
-
-    locations.zip(old_locations) do |l, o|
-      o.delete
-      l.rename o
-
-      delete_empty_directories l.dirname
+      remove_link old, location
     end
   end
 
@@ -61,62 +46,28 @@ class Dotfiles < Thor
       end
     end
 
-    def check_if_all_exist(pathnames)
-      non_existant_files = pathnames.reject(&:exist?)
-
-      unless non_existant_files.empty?
-        die "following files do not exist:\n" +
-          non_existant_files.join("\n")
-      end
-    end
-
-    def check_if_all_managed(pathnames)
-      non_managed_files = pathnames.reject { |l|
-        parents = []
-        l.ascend { |d| parents << d }
-
-        parents.include?(DOT_ROOT)
-      }
-
-      unless non_managed_files.empty?
-        die "following files are not managed:\n" +
-          non_managed_files_files.join("\n")
-      end
-    end
-
-    def check_all_symlinks(from, to)
-      non_symlinks = from.reject(&:symlink?)
-
-      unless non_symlinks.empty?
-        die "following files are not symlinks:\n" +
-          non_symlinks.join("\n")
-      end
-
-      invalid_symlinks = from.zip(to).each_with_object([]) do |(f, t), ary|
-        ary << f unless f.readlink == t
-      end
-
-      unless invalid_symlinks.empty?
-        die "following symlinks are pointing to the wrong place:\n" +
-          invalid_symlinks.join("\n")
-      end
-    end
-
-    def die(message)
-      warn message
-      exit 1
-    end
-
     def move_and_link(source, new_location)
-      unless source.exist?
-        say "file #{source} does not exist", :red
-        return
-      end
+      return unless source.exist?
 
       new_location.dirname.mkpath
 
       source.rename new_location
       source.make_symlink new_location
+    end
+
+    def remove_link(original, new)
+      return unless linking_valid?(original, new)
+
+      original.delete
+      new.rename original
+
+      delete_empty_directories new.dirname
+    end
+
+    def linking_valid?(from, to)
+      return false unless to.exist? && from.exist?
+      return false unless from.symlink? && from.readlink == to
+      true
     end
   end
 end
