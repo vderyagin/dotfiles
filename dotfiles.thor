@@ -54,7 +54,15 @@ class Dotfiles < Thor
       o.delete
       l.rename o
 
-      l.dirname.ascend do |dir|
+      delete_empty_directories l.dirname
+    end
+  end
+
+  no_commands do
+    # Delete start, then its parent, and so on.
+    # Stop on first non-empty directory.
+    def delete_empty_directories(start)
+      start.ascend do |dir|
         begin
           dir.delete
         rescue SystemCallError
@@ -62,10 +70,6 @@ class Dotfiles < Thor
         end
       end
     end
-  end
-
-
-  no_commands do
 
     def check_if_all_exist(pathnames)
       non_existant_files = pathnames.reject(&:exist?)
