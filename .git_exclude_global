@@ -37,3 +37,6 @@ Thumbs.db
 
 # Flymake temporary files
 .#*
+
+# sass cache
+.sass-cache/
