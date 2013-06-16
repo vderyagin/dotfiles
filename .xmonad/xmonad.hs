@@ -219,7 +219,7 @@ nsps = [
 isMenu     = isInProperty "_NET_WM_WINDOW_TYPE" "_NET_WM_WINDOW_TYPE_MENU"
 doSink     = ask >>= doF . W.sink
 myCFloats  = ["Gxmessage", "Xmessage", "Skype", "XClock", "Odeskteam-qt4"]
-myCCFloats = ["Xfd", "Gtk-chtheme", "MPlayer", "xmoto", "Simsu", "Lxappearance", "ffplay", "Vlc", "Gtorrentviewer", "Animate"]
+myCCFloats = ["Xfd", "Gtk-chtheme", "MPlayer", "xmoto", "Simsu", "Lxappearance", "ffplay", "Vlc", "Gtorrentviewer", "Animate", "Pinentry"]
 myTFloats  = ["glxgears", "Event Tester"]
 myRIgnores = ["stalonetray", "desktop_window"]
 myCSinks   = ["Dwarf_Fortress"]
