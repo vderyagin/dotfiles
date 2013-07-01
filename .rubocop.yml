@@ -1,3 +1,10 @@
+AllCops:
+  # Include gemspec and Rakefile
+  Includes:
+    - '**/*.gemspec'
+    - '**/Rakefile'
+  Excludes: []
+
 # Use UTF-8 as the source file encoding.
 Encoding:
   Enabled: false
@@ -5,7 +12,7 @@ Encoding:
 # Limit lines to 80 characters.
 LineLength:
   Enabled: true
-  Max: 79
+  Max: 80
 
 # Avoid methods longer than 10 lines of code
 MethodLength:
@@ -61,6 +68,10 @@ SpaceAfterSemicolon:
 SpaceAfterColon:
   Enabled: true
 
+# Use spaces after if/elsif/unless/while/until/case/when.
+SpaceAfterControlKeyword:
+  Enabled: true
+
 # Prefer symbols instead of strings as hash keys.
 HashSyntax:
   Enabled: true
@@ -98,16 +109,15 @@ OneLineConditional:
   Enabled: true
 
 # Avoid using {...} for multi-line blocks (multiline chaining is always ugly).
-MultilineBlocks:
-  Enabled: false
-
 # Prefer {...} over do...end for single-line blocks.
-SingleLineBlocks:
-  Enabled: true
+Blocks:
+  Enabled: false
 
 # Avoid parameter lists longer than three or four parameters.
 ParameterLists:
   Enabled: true
+  Max: 5
+  CountKeywordArgs: true
 
 # Prefer ' strings when you don't need string interpolation or special symbols.
 StringLiterals:
@@ -125,8 +135,8 @@ NestedTernaryOperator:
 UnlessElse:
   Enabled: true
 
-# Use &&/|| for boolean expressions, and/or for control flow.
-AmpersandsPipesVsAndOr:
+# Use &&/|| instead of and/or.
+AndOr:
   Enabled: true
 
 # Use when x then ... for one-line cases.
@@ -153,8 +163,12 @@ FavorUntilOverNegatedWhile:
 SpaceAroundEqualsInParameterDefault:
   Enabled: true
 
-# Use the new lambda literal syntax.
-NewLambdaLiteral:
+# Use the new lambda literal syntax for single-line blocks.
+Lambda:
+  Enabled: true
+
+# Use proc instead of Proc.new.
+Proc:
   Enabled: true
 
 # Don't use parentheses around the condition of an if/unless/while.
@@ -167,10 +181,6 @@ MethodAndVariableSnakeCase:
 
 # Use CamelCase for classes and modules.
 ClassAndModuleCamelCase:
-  Enabled: true
-
-# Causes Ruby to check the syntax of the script and exit without executing.
-Syntax:
   Enabled: true
 
 # Preferred collection methods.
@@ -193,10 +203,6 @@ AvoidPerlBackrefs:
 AvoidClassVars:
   Enabled: true
 
-# Symbol literals should use snake_case.
-SymbolSnakeCase:
-  Enabled: true
-
 # Don't interpolate global, instance and class variables directly in strings.
 VariableInterpolation:
   Enabled: true
@@ -204,9 +210,7 @@ VariableInterpolation:
 # Don't use semicolons to terminate expressions.
 Semicolon:
   Enabled: true
-  # For example; def area(height, width); height * width end
   AllowAfterParameterListInOneLineMethods: false
-  # For example; def area(height, width) height * width; end
   AllowBeforeEndInOneLineMethods: true
 
 # Use sprintf instead of String#%.
@@ -221,16 +225,12 @@ FavorJoin:
 Alias:
   Enabled: true
 
+# Use ! instead of not.
+Not:
+  Enabled: true
+
 # Avoid using rescue in its modifier form.
 RescueModifier:
-  Enabled: true
-
-# Avoid the use of %q, %Q, %s and %x.
-PercentLiterals:
-  Enabled: true
-
-# Prefer () as delimiters for all % literals.
-BraceAfterPercent:
   Enabled: true
 
 # Never use return in an ensure block.
@@ -257,12 +257,8 @@ BlockComments:
 RescueException:
   Enabled: true
 
-# Prefer array literal to Array.new.
-ArrayLiteral:
-  Enabled: true
-
-# Prefer hash {} literail to Hash.new.
-HashLiteral:
+# Prefer literals to Array.new/Hash.new/String.new.
+EmptyLiteral:
   Enabled: true
 
 # When defining binary operators, name the argument other.
@@ -273,13 +269,13 @@ OpMethod:
 ReduceArguments:
   Enabled: true
 
-# Use %r only for regular expressions matching more than one '/' character.
-PercentR:
+# Use %r for regular expressions matching more than `MaxSlashes` '/'
+# characters.
+# Use %r only for regular expressions matching more than `MaxSlashes` '/'
+# character.
+RegexpLiteral:
   Enabled: true
-
-# Use %r for regular expressions matching more than one '/' character.
-FavorPercentR:
-  Enabled: true
+  MaxSlashes: 2
 
 # Use self when defining module/class methods.
 ClassMethods:
@@ -294,14 +290,10 @@ SingleLineMethods:
 WordArray:
   Enabled: true
 
-# Use %i or %I for arrays of symbols.
-SymbolArray:
-  Enabled: false
-
 # Use spaces inside hash literal braces - or don't.
 SpaceInsideHashLiteralBraces:
   Enabled: true
-  EnforcedStyleIsWithSpaces: true
+  EnforcedStyleIsWithSpaces: false
 
 # Avoid the use of line continuation (/).
 LineContinuation:
@@ -315,7 +307,7 @@ TrivialAccessors:
 LeadingCommentSpace:
   Enabled: true
 
-# Do not use :: for method invocation.
+# Do not use :: for method call.
 ColonMethodCall:
   Enabled: true
 
@@ -332,6 +324,102 @@ SymbolName:
   Enabled: true
   AllowCamelCase: false
 
+# Constants should use SCREAMING_SNAKE_CASE.
+ConstantName:
+  Enabled: true
+
+# Indent private/protected as deep as defs and keep blank lines around them.
+AccessControl:
+  Enabled: true
+
+# Use Kernel#loop with break rather than begin/end/until or begin/end/while for post-loop tests.
+Loop:
+  Enabled: true
+
+# Avoid excessive block nesting
+BlockNesting:
+  Enabled: true
+  Max: 3
+
+# Avoid explicit use of the case equality operator(===).
+CaseEquality:
+  Enabled: true
+
+# Document classes and non-namespace modules.
+Documentation:
+  Enabled: true
+
+# Do not use parentheses for method calls with no arguments.
+MethodCallParentheses:
+  Enabled: true
+
+# Checks for redundant do after while or until.
+WhileUntilDo:
+  Enabled: true
+
+# Checks for uses of character literals.
+CharacterLiteral:
+  Enabled: true
+
+# Avoid the use of BEGIN blocks.
+BeginBlock:
+  Enabled: true
+
+# Avoid the use of END blocks.
+EndBlock:
+  Enabled: true
+
+## Warnings
+
+# Don't use assignment in conditions.
+AssignmentInCondition:
+  Enabled: true
+  AllowSafeAssignment: true
+
+# Align ends correctly.
+EndAlignment:
+  Enabled: false
+  BlockAlignSchema: StartOfAssignment
+
+# Possible use of operator/literal/variable in void context.
+Void:
+  Enabled: true
+
+# Unreachable code.
+UnreachableCode:
+  Enabled: true
+
+# Unused local variable.
+UnusedLocalVariable:
+  Enabled: true
+
+# Do not use the same name as outer local variable
+# for block arguments or block local variables.
+ShadowingOuterLocalVariable:
+  Enabled: true
+
+# END blocks should not be placed inside method definitions.
+EndInMethod:
+  Enabled: true
+
+# Checks of literals used in conditions.
+LiteralInCondition:
+  Enabled: true
+
+# Checks the position of the dot in multi-line method calls.
+DotPosition:
+  Enabled: true
+
+# Checks for uses of Module#attr.
+Attr:
+  Enabled: true
+
+## Rails
+
+# Use sexy validations.
+Validation:
+  Enabled: true
+
 # Use %i or %I for arrays of symbols.
 SymbolArray:
-  Enabled: false
+  Enabled: true
