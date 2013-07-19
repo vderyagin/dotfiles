@@ -26,43 +26,40 @@ import XMonad.Layout.MultiToggle
 import XMonad.Layout.MultiToggle.Instances
 import XMonad.Layout.Named
 import XMonad.Layout.NoBorders
-import XMonad.Layout.PerWorkspace
 import XMonad.Layout.ResizableTile
 import XMonad.Layout.Tabbed
 
 import XMonad.Prompt
 import XMonad.Prompt.Input
-import XMonad.Prompt.Shell
 import qualified XMonad.Prompt.AppLauncher as AL
 
 import XMonad.Util.EZConfig
 import XMonad.Util.NamedScratchpad
 import XMonad.Util.Run
-import XMonad.Util.WorkspaceCompare
 
 import System.Exit
 import qualified Data.Map as M
 
 
 main = do
-    dzen  <- spawnPipe myStatusBar
-    clock <- spawnPipe myClock
+    dz  <- spawnPipe myStatusBar
+    _ <- spawnPipe myClock
 
-    xmonad $ withUrgencyHook NoUrgencyHook $ myConfig dzen
+    xmonad $ withUrgencyHook NoUrgencyHook $ myConfig dz
 
-myConfig dzen = defaultConfig {
+myConfig dz = defaultConfig {
     borderWidth        = myBorderWidth,
     clickJustFocuses   = False,
     focusFollowsMouse  = False,
     focusedBorderColor = myFocusedBorderColor,
     keys               = \conf -> mkKeymap conf (myAdditionalKeymap conf),
     layoutHook         = myLayoutHook,
-    logHook            = dynamicLogWithPP $ myDzenPP dzen,
+    logHook            = dynamicLogWithPP $ myDzenPP dz,
     manageHook         = myManageHook,
     modMask            = mod4Mask,
     mouseBindings      = myMouseBindings,
     normalBorderColor  = myNormalBorderColor,
-    startupHook        = return () >> checkKeymap (myConfig dzen) myKeymap >> setWMName "LG3D",
+    startupHook        = return () >> checkKeymap (myConfig dz) myKeymap >> setWMName "LG3D",
     terminal           = myTerminal,
     workspaces         = myWorkspaces
 }
@@ -84,11 +81,11 @@ myLayoutIcon name
   | name `elem` layouts = iconFor name
   | otherwise = noIcon
     where
-      layouts      = ["tall", "mtall", "tabs", "tab_a", "full", "Full", "grid"]
-      iconFor name = "^bg(" ++ myBgColor ++ ")^fg(" ++ myFgColor ++ ")^i(" ++ myDzDir ++ "/icons/" ++ name ++ ".xbm)^bg()^fg()"
-      noIcon       = "^bg(" ++ myBgColor ++ ")^fg(" ++ myUrgentColor ++ ")?^bg()^fg()"
+      layouts   = ["tall", "mtall", "tabs", "tab_a", "full", "Full", "grid"]
+      iconFor n = "^bg(" ++ myBgColor ++ ")^fg(" ++ myFgColor ++ ")^i(" ++ myDzDir ++ "/icons/" ++ n ++ ".xbm)^bg()^fg()"
+      noIcon    = "^bg(" ++ myBgColor ++ ")^fg(" ++ myUrgentColor ++ ")?^bg()^fg()"
 
-myWorkspaces = (map return "αβγδεζηθικλμν") ++ ["NSP"]
+myWorkspaces = map return "αβγδεζηθικλμν" ++ ["NSP"]
 myWs n = (!!) myWorkspaces $ subtract 1 n
 
 cycleRecentWS' :: [KeySym] -> KeySym -> KeySym -> X ()
@@ -108,7 +105,7 @@ myTerminal    = "urxvtc"
 myBorderWidth = 1
 myStatusBar   = "dzen2 -x '0' -w '350' -ta 'l' -fn '" ++ myMonoDzFont ++ myDzDefArgs
 
-myClock     = myDzenClock ++ " | dzen2 -x '350' -w '930' -ta 'r' -fn '" ++ myDzFont ++ myDzDefArgs
+myClock     = myDzenClock ++ " | dzen2 -x '350' -w '1570' -ta 'r' -fn '" ++ myDzFont ++ myDzDefArgs
 myDzenClock = "while :; do LC_ALL='uk_UA.UTF-8' date +'^fg(#2e5aa7)%A, %d^fg() - %T ' || exit 1; sleep 1; done"
 myDzDefArgs = "' -y '0' -h '16' -bg '" ++ myBgColor ++ "' -fg '" ++ myFgColor ++ "' -e 'onstart=lower'"
 myDzDir     = "/home/vderyagin/.xmonad"
@@ -181,7 +178,7 @@ full  = named "full" Full
 
 myLdefault = tabs ||| full ||| mtall ||| tall ||| tab_a ||| grid
 
-myLayoutHook = avoidStruts $ smartBorders $ mkToggle1 FULL $ myLdefault
+myLayoutHook = avoidStruts $ smartBorders $ mkToggle1 FULL myLdefault
 
 nsps = [
     NS "goldendict"
@@ -322,23 +319,23 @@ myKeymap = [
     ("M-x k c", spawn "killall -9 chrome"),
     ("M-x k e", spawn "killall -9 emacs"),
 
-    ("M-x m",      spawn "mplayer -fs tv:// -tv driver=v4l2:device=/dev/video0 -fps 60 -vf mirror,screenshot"),
-    ("M-x M-m",    spawn "mplayer -fs tv:// -tv driver=v4l2:device=/dev/video0 -fps 60 -vf screenshot"),
-    ("M-x M-e",    spawn "emacsclient -c -a ''"),
-    ("M-x M-f",   (spawn "firefox -no-remote") >> (windows $ W.view (myWs 1))),
-    ("M-x M-c",   (spawn "chromium") >> (windows $ W.view (myWs 1))),
-    ("M-x M-C-c", (spawn "chromium --incognito") >> (windows $ W.view (myWs 1))),
-    ("M-x M-C-f", (spawn "firefox -private") >> (windows $ W.view (myWs 1))),
-    ("M-x M-p",    spawnHere "pcmanfm"),
+    ("M-x m",     spawn "mplayer tv:// -tv driver=v4l2:device=/dev/video0 -fps 60 -vf mirror,screenshot"),
+    ("M-x M-m",   spawn "mplayer tv:// -tv driver=v4l2:device=/dev/video0 -fps 60 -vf screenshot"),
+    ("M-x M-e",   spawn "emacsclient -c -a ''"),
+    ("M-x M-f",   spawn "firefox -no-remote" >> windows (W.view (myWs 1))),
+    ("M-x M-c",   spawn "chromium" >> windows (W.view (myWs 1))),
+    ("M-x M-C-c", spawn "chromium --incognito" >> windows (W.view (myWs 1))),
+    ("M-x M-C-f", spawn "firefox -private" >> windows (W.view (myWs 1))),
+    ("M-x M-p",   spawnHere "pcmanfm"),
 
     ("M-x e", raiseNextMaybe (spawn "emacsclient -c -a ''") (className =? "Emacs")),
-    ("M-x f", raiseNextMaybe ((spawnHere "firefox") >> (windows $ W.view (myWs 1)))
+    ("M-x f", raiseNextMaybe (spawnHere "firefox" >> windows (W.view (myWs 1)))
                              (className =? "Firefox" <&&> resource =? "Navigator")),
-    ("M-x c", raiseNextMaybe ((spawn "chromium") >> (windows $ W.view (myWs 1)))
+    ("M-x c", raiseNextMaybe (spawn "chromium" >> windows (W.view (myWs 1)))
                              (className =? "Chromium-browser")),
-    ("M-x q", raiseNextMaybe ((spawn "qpdfview --unique") >> (windows $ W.view (myWs 6)))
+    ("M-x q", raiseNextMaybe (spawn "qpdfview --unique" >> windows (W.view (myWs 6)))
                              (className =? "Qpdfview")),
-    ("M-x r", raiseNextMaybe ((spawn "fbreader") >> (windows $ W.view (myWs 6)))
+    ("M-x r", raiseNextMaybe (spawn "fbreader" >> windows (W.view (myWs 6)))
                              (className =? "Fbreader")),
     ("M-x p", raiseNextMaybe (spawnHere "pcmanfm") (className =? "Pcmanfm")),
     ("M-x t", raiseNextMaybe (spawnHere "transmission-gtk") (title =? "Transmission")),
@@ -347,12 +344,12 @@ myKeymap = [
     ("M-g", goToSelected myGSConfig),
 
     ("M-<Space>", bindOn [
-        ((myWs 1), cycleThroughLayouts ["full", "tabs"]),
-        ((myWs 2), cycleThroughLayouts ["full", "tabs"]),
-        ((myWs 3), cycleThroughLayouts ["full", "tabs"]),
-        ((myWs 4), cycleThroughLayouts ["full", "tabs"]),
-        ((myWs 5), cycleThroughLayouts ["full", "tabs"]),
-        ((myWs 6), cycleThroughLayouts ["full", "tabs"]),
+        (myWs 1, cycleThroughLayouts ["full", "tabs"]),
+        (myWs 2, cycleThroughLayouts ["full", "tabs"]),
+        (myWs 3, cycleThroughLayouts ["full", "tabs"]),
+        (myWs 4, cycleThroughLayouts ["full", "tabs"]),
+        (myWs 5, cycleThroughLayouts ["full", "tabs"]),
+        (myWs 6, cycleThroughLayouts ["full", "tabs"]),
         ("", cycleThroughLayouts ["full", "mtall", "tall", "tabs", "tab_a", "grid"])
     ]),
 
@@ -397,12 +394,12 @@ myAdditionalKeymap conf = [
        , (m, f) <- [("M-", W.view), ("M-S-", W.shift)]
     ]
 myMouseBindings (XConfig {XMonad.modMask = modMask}) = M.fromList $ [
-    ((modMask, button1), (\w -> focus w >> mouseMoveWindow w)),
-    ((modMask, button2), (\w -> focus w >> windows W.shiftMaster)),
-    ((modMask, button3), (\w -> focus w >> Flex.mouseResizeWindow w)),
-    ((modMask, button4), (\w -> windows W.focusUp)),
-    ((modMask, button5), (\w -> windows W.focusDown)),
-    ((modMask .|. shiftMask, button3), (\w -> focus w >> Sqr.mouseResizeWindow w True )),
-    ((modMask .|. shiftMask, button4), (\w -> windows W.swapUp)),
-    ((modMask .|. shiftMask, button5), (\w -> windows W.swapDown))
+    ((modMask, button1), \w -> focus w >> mouseMoveWindow w),
+    ((modMask, button2), \w -> focus w >> windows W.shiftMaster),
+    ((modMask, button3), \w -> focus w >> Flex.mouseResizeWindow w),
+    ((modMask, button4), \w -> windows W.focusUp),
+    ((modMask, button5), \w -> windows W.focusDown),
+    ((modMask .|. shiftMask, button3), \w -> focus w >> Sqr.mouseResizeWindow w True ),
+    ((modMask .|. shiftMask, button4), \w -> windows W.swapUp),
+    ((modMask .|. shiftMask, button5), \w -> windows W.swapDown)
     ]
