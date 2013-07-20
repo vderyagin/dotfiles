@@ -103,14 +103,17 @@ myUrgentColor        = "#bd4747"
 myNormalBorderColor  = myOtherFgColor
 myFocusedBorderColor = myUrgentColor
 
+myStatusOffset = 350
+myScreenWidth =  1920
+myScreenHeight = myScreenHeight
+
 myTerminal    = "urxvtc"
 myBorderWidth = 1
-myStatusBar   = "dzen2 -x '0' -w '350' -ta 'l' -fn '" ++ myMonoDzFont ++ myDzDefArgs
-
-myClock     = myDzenClock ++ " | dzen2 -x '350' -w '1570' -ta 'r' -fn '" ++ myDzFont ++ myDzDefArgs
-myDzenClock = "while :; do LC_ALL='uk_UA.UTF-8' date +'^fg(#2e5aa7)%A, %d^fg() - %T ' || exit 1; sleep 1; done"
-myDzDefArgs = "' -y '0' -h '16' -bg '" ++ myBgColor ++ "' -fg '" ++ myFgColor ++ "' -e 'onstart=lower'"
-myDzDir     = "/home/vderyagin/.xmonad"
+myStatusBar   = "dzen2 -x '0' -w '" ++ show myStatusOffset ++ "' -ta 'l' -fn '" ++ myMonoDzFont ++ myDzDefArgs
+myClock       = myDzenClock ++ " | dzen2 -x '" ++ show myStatusOffset ++ "' -w '" ++ show (myScreenWidth - myStatusOffset) ++ "' -ta 'r' -fn '" ++ myDzFont ++ myDzDefArgs
+myDzenClock   = "while :; do LC_ALL='uk_UA.UTF-8' date +'^fg(#2e5aa7)%A, %d^fg() - %T ' || exit 1; sleep 1; done"
+myDzDefArgs   = "' -y '0' -h '16' -bg '" ++ myBgColor ++ "' -fg '" ++ myFgColor ++ "' -e 'onstart=lower'"
+myDzDir       = "/home/vderyagin/.xmonad"
 
 myMonoDzFont = "DejaVu Sans Mono-10"
 myDzFont     = "DejaVu Sans-10"
@@ -191,7 +194,7 @@ nsps = [
     NS "terminal"
        "urxvtc -name sp_term -e tmux attach -d -t main"
        (resource =? "sp_term")
-       (customFloating $ W.RationalRect ((1920-1255)/1920/2) ((1080-760)/1080/2) (1255/1920) (760/1080)),
+       (customFloating $ W.RationalRect ((myScreenWidth-1255)/myScreenWidth/2) ((myScreenHeight-760)/myScreenHeight/2) (1255/myScreenWidth) (760/myScreenHeight)),
     NS "dev-terminal"
        "urxvtc -b 7 -name sp_dev_term -e tmux attach -d -t dev"
        (resource =? "sp_dev_term")
@@ -253,14 +256,14 @@ myKeymap = [
     ("M-<Page_Up>",      withFocused (keysResizeWindow (18, 18) (0.5, 0.5))),
     ("M-<Page_Down>",    withFocused (keysResizeWindow (-18, -18) (0.5, 0.5))),
     ("M-<KP_Begin>",     withFocused (keysMoveWindowTo (960, 540) (0.5, 0.5))),
-    ("M-<KP_End>",       withFocused (keysMoveWindowTo (0, 1080) (0, 1))),
-    ("M-<KP_Page_Down>", withFocused (keysMoveWindowTo (1920, 1080) (1, 1))),
+    ("M-<KP_End>",       withFocused (keysMoveWindowTo (0, myScreenHeight) (0, 1))),
+    ("M-<KP_Page_Down>", withFocused (keysMoveWindowTo (1920, myScreenHeight) (1, 1))),
     ("M-<KP_Home>",      withFocused (keysMoveWindowTo (0, 0) (0, 0))),
     ("M-<KP_Page_Up>",   withFocused (keysMoveWindowTo (1920, 0) (1, 0))),
     ("M-<KP_Left>",      withFocused (keysMoveWindowTo (0, 540) (0, 0.5))),
     ("M-<KP_Right>",     withFocused (keysMoveWindowTo (1920, 540) (1, 0.5))),
     ("M-<KP_Up>",        withFocused (keysMoveWindowTo (960, 0) (0.5, 0))),
-    ("M-<KP_Down>",      withFocused (keysMoveWindowTo (960, 1080) (0.5, 1))),
+    ("M-<KP_Down>",      withFocused (keysMoveWindowTo (960, myScreenHeight) (0.5, 1))),
     ("M-M1-<L>",         withFocused (keysMoveWindow (-10, 0))),
     ("M-M1-<R>",         withFocused (keysMoveWindow (10, 0))),
     ("M-M1-<U>",         withFocused (keysMoveWindow (0, -10))),
@@ -403,7 +406,7 @@ myMouseBindings (XConfig {XMonad.modMask = m}) = M.fromList [
     ((m, button3), \w -> focus w >> Flex.mouseResizeWindow w),
     ((m, button4), \_ -> windows W.focusUp),
     ((m, button5), \_ -> windows W.focusDown),
-    ((m .|. shiftMask, button3), \w -> focus w >> Sqr.mouseResizeWindow w True ),
+    ((m .|. shiftMask, button3), \w -> focus w >> Sqr.mouseResizeWindow w True),
     ((m .|. shiftMask, button4), \_ -> windows W.swapUp),
     ((m .|. shiftMask, button5), \_ -> windows W.swapDown)
     ]
