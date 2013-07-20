@@ -47,7 +47,6 @@ msgcolor=yes
 
 vf=screenshot
 af=equalizer,scaletempo
-fstype=-fullscreen,layer,stays_on_top,above
 channels=2
 
 brightness=0
