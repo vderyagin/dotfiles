@@ -22,6 +22,7 @@ import XMonad.Hooks.UrgencyHook
 
 import XMonad.Layout.Grid
 import XMonad.Layout.LayoutCombinators
+import XMonad.Layout.LayoutHints
 import XMonad.Layout.MultiToggle
 import XMonad.Layout.MultiToggle.Instances
 import XMonad.Layout.Named
@@ -41,13 +42,14 @@ import System.Exit
 import qualified Data.Map as M
 
 
+main :: IO ()
 main = do
-    dz  <- spawnPipe myStatusBar
-    _ <- spawnPipe myClock
+    dz <- spawnPipe myStatusBar
+    _  <- spawnPipe myClock
 
     xmonad $ withUrgencyHook NoUrgencyHook $ myConfig dz
 
-myConfig dz = defaultConfig {
+myConfig dz = def {
     borderWidth        = myBorderWidth,
     clickJustFocuses   = False,
     focusFollowsMouse  = False,
@@ -65,20 +67,20 @@ myConfig dz = defaultConfig {
 }
     `additionalKeysP` myKeymap
 
-myDzenPP h = defaultPP {
+myDzenPP h = def {
     ppCurrent         = dzenColor myFgColor myOtherFgColor . wrap " " " ",
     ppHidden          = dzenColor myFgColor "",
     ppHiddenNoWindows = dzenColor myOtherFgColor "",
     ppUrgent          = dzenColor myBgColor myUrgentColor . dzenStrip . wrap " " " ",
     ppSep             = dzenColor "" "" " ",
-    ppSort            = fmap (.namedScratchpadFilterOutWorkspace) $ ppSort defaultPP,
+    ppSort            = fmap (.namedScratchpadFilterOutWorkspace) $ ppSort def,
     ppOrder           = \(ws:l:_) -> [ws,l],
     ppOutput          = hPutStrLn h,
     ppLayout          = dzenColor "" "" . myLayoutIcon
 }
 
-myLayoutIcon name
-  | name `elem` layouts = iconFor name
+myLayoutIcon layoutName
+  | layoutName `elem` layouts = iconFor layoutName
   | otherwise = noIcon
     where
       layouts   = ["tall", "mtall", "tabs", "tab_a", "full", "Full", "grid"]
@@ -115,7 +117,7 @@ myDzFont     = "DejaVu Sans-10"
 myTabsFont   = "xft:DejaVu Sans:pixelsize=12"
 myPromptFont = "xft:Consolas:pixelsize=15"
 
-myTabConfig = defaultTheme {
+myTabConfig = def {
     inactiveColor       = myBgColor,
     activeColor         = myOtherFgColor,
     urgentColor         = myUrgentColor,
@@ -129,7 +131,7 @@ myTabConfig = defaultTheme {
     fontName            = myTabsFont
 }
 
-myXPConfig = defaultXPConfig {
+myXPConfig = def {
     font              = myPromptFont,
     bgColor           = myOtherFgColor,
     fgColor           = myFgColor,
@@ -146,7 +148,7 @@ myAutoXPConfig = myXPConfig {
     autoComplete = Just 1000
 }
 
-myGSConfig = defaultGSConfig {
+myGSConfig = def {
     gs_cellheight = 40,
     gs_cellwidth  = 150
 }
@@ -169,26 +171,27 @@ myMtall = Mirror (ResizableTall nmaster delta2 frac slaves)
         frac    = 1/2
         slaves  = [1]
 
-tall  = named "tall" mytall
-mtall = named "mtall" myMtall
-grid  = named "grid" Grid
+tall  = named "tall" (layoutHintsWithPlacement (0.5, 0.5) mytall)
+mtall = named "mtall" (layoutHintsWithPlacement (0.5, 0.5) myMtall)
+grid  = named "grid" (layoutHintsWithPlacement (0.5, 0.5) Grid)
 tabs  = named "tabs" (tabbed shrinkText myTabConfig)
-tab_a = named "tab_a" (tabbedAlways shrinkText myTabConfig)
+tab_a = named "tab_a"(tabbedAlways shrinkText myTabConfig)
 full  = named "full" Full
 
 myLdefault = tabs ||| full ||| mtall ||| tall ||| tab_a ||| grid
 
 myLayoutHook = avoidStruts $ smartBorders $ mkToggle1 FULL myLdefault
 
+nsps :: [NamedScratchpad]
 nsps = [
     NS "goldendict"
        "goldendict"
        (title =? "GoldenDict")
-       (customFloating $ W.RationalRect (1/10) (1/14) (4/5) (6/7)),
+       (customFloating $ W.RationalRect (1/10) (1/14) (1/2) (6/7)),
     NS "terminal"
-       "urxvtc -geometry 120x40 -name sp_term -e tmux attach -d -t main"
+       "urxvtc -name sp_term -e tmux attach -d -t main"
        (resource =? "sp_term")
-       (customFloating $ W.RationalRect (51/640) (159/1024) (215/256) (353/512)),
+       (customFloating $ W.RationalRect ((1920-1255)/1920/2) ((1080-760)/1080/2) (1255/1920) (760/1080)),
     NS "dev-terminal"
        "urxvtc -b 7 -name sp_dev_term -e tmux attach -d -t dev"
        (resource =? "sp_dev_term")
@@ -297,7 +300,7 @@ myKeymap = [
     ("M-f",              sendMessage $ Toggle FULL),
     ("M-S-n",            refresh),
     ("M-S-m",            windows W.focusMaster),
-    ("M-S-q",            io (exitWith ExitSuccess)),
+    ("M-S-q",            io exitSuccess),
     ("M-S-a",            AL.launchApp myXPConfig (myTerminal ++ " -e")),
     ("M-<Print>",        spawn "scrot"),
     ("M-S-<Print>",      spawn "sleep 0.2 && scrot -s"),
@@ -390,16 +393,16 @@ myAdditionalKeymap conf = [
     ++
     [
     (m ++ i, windows $ f j)
-       | (i, j) <- zip ("`" : (map show [1..9]) ++ ["0", "-", "="]) (XMonad.workspaces conf)
+       | (i, j) <- zip (map return "`1234567890-=") (XMonad.workspaces conf)
        , (m, f) <- [("M-", W.view), ("M-S-", W.shift)]
     ]
-myMouseBindings (XConfig {XMonad.modMask = modMask}) = M.fromList $ [
-    ((modMask, button1), \w -> focus w >> mouseMoveWindow w),
-    ((modMask, button2), \w -> focus w >> windows W.shiftMaster),
-    ((modMask, button3), \w -> focus w >> Flex.mouseResizeWindow w),
-    ((modMask, button4), \w -> windows W.focusUp),
-    ((modMask, button5), \w -> windows W.focusDown),
-    ((modMask .|. shiftMask, button3), \w -> focus w >> Sqr.mouseResizeWindow w True ),
-    ((modMask .|. shiftMask, button4), \w -> windows W.swapUp),
-    ((modMask .|. shiftMask, button5), \w -> windows W.swapDown)
+myMouseBindings (XConfig {XMonad.modMask = m}) = M.fromList [
+    ((m, button1), \w -> focus w >> mouseMoveWindow w),
+    ((m, button2), \w -> focus w >> windows W.shiftMaster),
+    ((m, button3), \w -> focus w >> Flex.mouseResizeWindow w),
+    ((m, button4), \_ -> windows W.focusUp),
+    ((m, button5), \_ -> windows W.focusDown),
+    ((m .|. shiftMask, button3), \w -> focus w >> Sqr.mouseResizeWindow w True ),
+    ((m .|. shiftMask, button4), \_ -> windows W.swapUp),
+    ((m .|. shiftMask, button5), \_ -> windows W.swapDown)
     ]
