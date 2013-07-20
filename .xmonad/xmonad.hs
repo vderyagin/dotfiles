@@ -331,7 +331,7 @@ myKeymap = [
     ("M-x M-f",   spawn "firefox -no-remote" >> windows (W.view (myWs 1))),
     ("M-x M-c",   spawn "chromium" >> windows (W.view (myWs 1))),
     ("M-x M-C-c", spawn "chromium --incognito" >> windows (W.view (myWs 1))),
-    ("M-x M-C-f", spawn "firefox -private" >> windows (W.view (myWs 1))),
+    ("M-x M-C-f", spawn "firefox -private-window" >> windows (W.view (myWs 1))),
     ("M-x M-p",   spawnHere "pcmanfm"),
 
     ("M-x e", raiseNextMaybe (spawn "emacsclient -c -a ''") (className =? "Emacs")),
