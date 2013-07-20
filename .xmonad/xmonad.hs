@@ -381,6 +381,7 @@ myKeymap = [
     ("<XF86Calculator>",         spawn "amixer -q set Master toggle"),
     ("C-<XF86Calculator>",       spawn "rake --system lock_screen"),
     ("<XF86MyComputer>",         spawn "mpd_status"),
+    ("<XF86AudioMedia>",         spawn "toggle_screen_orientation"),
 
     ("M-<F10>", spawn "emxkb 0"), -- english
     ("M-<F11>", spawn "emxkb 1"), -- ukrainian
