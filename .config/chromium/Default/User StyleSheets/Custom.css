@@ -1,0 +1,4 @@
+body.platform-linux .monospace, body.platform-linux .source-code {
+  font-size: 15px !important;
+  font-family: consolas !important;
+}
