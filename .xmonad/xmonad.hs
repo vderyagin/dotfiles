@@ -105,7 +105,7 @@ myFocusedBorderColor = myUrgentColor
 
 myStatusOffset = 350
 myScreenWidth =  1920
-myScreenHeight = myScreenHeight
+myScreenHeight = 1080
 
 myTerminal    = "urxvtc"
 myBorderWidth = 1
@@ -160,17 +160,17 @@ myLayoutPrompt = inputPromptWithCompl myAutoXPConfig "Layout"
     (mkComplFunFromList' ["tall", "mtall", "full", "tabs", "tab_a", "grid"])
     ?+ \l -> sendMessage $ JumpToLayout l
 
-mytall  = ResizableTall nmaster delta1 frac slaves
+mytall  = ResizableTall nmaster delta frac slaves
     where
         nmaster = 1
-        delta1  = 1/55
-        frac    = 1/2
+        delta   = 1/100
+        frac    = 3/5
         slaves  = [1]
 
-myMtall = Mirror (ResizableTall nmaster delta2 frac slaves)
+myMtall = Mirror (ResizableTall nmaster delta frac slaves)
     where
         nmaster = 1
-        delta2  = 1/60
+        delta   = 1/100
         frac    = 1/2
         slaves  = [1]
 
@@ -256,14 +256,14 @@ myKeymap = [
     ("M-<Page_Up>",      withFocused (keysResizeWindow (18, 18) (0.5, 0.5))),
     ("M-<Page_Down>",    withFocused (keysResizeWindow (-18, -18) (0.5, 0.5))),
     ("M-<KP_Begin>",     withFocused (keysMoveWindowTo (960, 540) (0.5, 0.5))),
-    ("M-<KP_End>",       withFocused (keysMoveWindowTo (0, myScreenHeight) (0, 1))),
-    ("M-<KP_Page_Down>", withFocused (keysMoveWindowTo (1920, myScreenHeight) (1, 1))),
+    ("M-<KP_End>",       withFocused (keysMoveWindowTo (0, 1080) (0, 1))),
+    ("M-<KP_Page_Down>", withFocused (keysMoveWindowTo (1920, 1080) (1, 1))),
     ("M-<KP_Home>",      withFocused (keysMoveWindowTo (0, 0) (0, 0))),
     ("M-<KP_Page_Up>",   withFocused (keysMoveWindowTo (1920, 0) (1, 0))),
     ("M-<KP_Left>",      withFocused (keysMoveWindowTo (0, 540) (0, 0.5))),
     ("M-<KP_Right>",     withFocused (keysMoveWindowTo (1920, 540) (1, 0.5))),
     ("M-<KP_Up>",        withFocused (keysMoveWindowTo (960, 0) (0.5, 0))),
-    ("M-<KP_Down>",      withFocused (keysMoveWindowTo (960, myScreenHeight) (0.5, 1))),
+    ("M-<KP_Down>",      withFocused (keysMoveWindowTo (960, 1080) (0.5, 1))),
     ("M-M1-<L>",         withFocused (keysMoveWindow (-10, 0))),
     ("M-M1-<R>",         withFocused (keysMoveWindow (10, 0))),
     ("M-M1-<U>",         withFocused (keysMoveWindow (0, -10))),
