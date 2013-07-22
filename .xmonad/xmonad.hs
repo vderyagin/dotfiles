@@ -22,7 +22,6 @@ import XMonad.Hooks.UrgencyHook
 
 import XMonad.Layout.Grid
 import XMonad.Layout.LayoutCombinators
-import XMonad.Layout.LayoutHints
 import XMonad.Layout.MultiToggle
 import XMonad.Layout.MultiToggle.Instances
 import XMonad.Layout.Named
@@ -174,9 +173,9 @@ myMtall = Mirror (ResizableTall nmaster delta frac slaves)
         frac    = 1/2
         slaves  = [1]
 
-tall  = named "tall" (layoutHintsWithPlacement (0.5, 0.5) mytall)
-mtall = named "mtall" (layoutHintsWithPlacement (0.5, 0.5) myMtall)
-grid  = named "grid" (layoutHintsWithPlacement (0.5, 0.5) Grid)
+tall  = named "tall" mytall
+mtall = named "mtall" myMtall
+grid  = named "grid" Grid
 tabs  = named "tabs" (tabbed shrinkText myTabConfig)
 tab_a = named "tab_a"(tabbedAlways shrinkText myTabConfig)
 full  = named "full" Full
