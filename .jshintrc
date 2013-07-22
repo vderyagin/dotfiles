@@ -28,6 +28,7 @@
   "predef": [
     "Backbone", "_",
     "window",
+    "console",
     "Ember",
     "jQuery", "$"
   ]
