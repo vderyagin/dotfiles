@@ -347,7 +347,7 @@ CaseEquality:
 
 # Document classes and non-namespace modules.
 Documentation:
-  Enabled: true
+  Enabled: false
 
 # Do not use parentheses for method calls with no arguments.
 MethodCallParentheses:
