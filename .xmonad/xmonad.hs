@@ -82,7 +82,7 @@ myLayoutIcon layoutName
   | layoutName `elem` layouts = iconFor layoutName
   | otherwise = noIcon
     where
-      layouts   = ["tall", "mtall", "tabs", "tab_a", "full", "Full", "grid"]
+      layouts   = ["tall", "mtall", "tabs", "full", "Full", "grid"]
       iconFor n = "^bg(" ++ myBgColor ++ ")^fg(" ++ myFgColor ++ ")^i(" ++ myDzDir ++ "/icons/" ++ n ++ ".xbm)^bg()^fg()"
       noIcon    = "^bg(" ++ myBgColor ++ ")^fg(" ++ myUrgentColor ++ ")?^bg()^fg()"
 
@@ -156,7 +156,7 @@ myGSConfig = def {
 }
 
 myLayoutPrompt = inputPromptWithCompl myAutoXPConfig "Layout"
-    (mkComplFunFromList' ["tall", "mtall", "full", "tabs", "tab_a", "grid"])
+    (mkComplFunFromList' ["tall", "mtall", "full", "tabs", "grid"])
     ?+ \l -> sendMessage $ JumpToLayout l
 
 mytall  = ResizableTall nmaster delta frac slaves
@@ -177,10 +177,9 @@ tall  = named "tall" mytall
 mtall = named "mtall" myMtall
 grid  = named "grid" Grid
 tabs  = named "tabs" (tabbed shrinkText myTabConfig)
-tab_a = named "tab_a"(tabbedAlways shrinkText myTabConfig)
 full  = named "full" Full
 
-myLdefault = tabs ||| full ||| mtall ||| tall ||| tab_a ||| grid
+myLdefault = tall ||| mtall ||| tabs ||| full ||| grid
 
 myLayoutHook = avoidStruts $ smartBorders $ mkToggle1 FULL myLdefault
 
@@ -355,7 +354,7 @@ myKeymap = [
         (myWs 4, cycleThroughLayouts ["full", "tabs"]),
         (myWs 5, cycleThroughLayouts ["full", "tabs"]),
         (myWs 6, cycleThroughLayouts ["full", "tabs"]),
-        ("", cycleThroughLayouts ["full", "mtall", "tall", "tabs", "tab_a", "grid"])
+        ("", cycleThroughLayouts ["full", "mtall", "tall", "tabs", "grid"])
     ]),
 
     ("M-q", spawn $ "ghc -e 'XMonad.recompile False >>= flip Control.Monad.unless System.Exit.exitFailure'"
