@@ -82,7 +82,7 @@ myLayoutIcon layoutName
   | layoutName `elem` layouts = iconFor layoutName
   | otherwise = noIcon
     where
-      layouts   = ["tall", "mtall", "tabs", "full", "Full", "grid"]
+      layouts   = ["vertical", "horizontal", "tabs", "full", "Full", "grid"]
       iconFor n = "^bg(" ++ myBgColor ++ ")^fg(" ++ myFgColor ++ ")^i(" ++ myDzDir ++ "/icons/" ++ n ++ ".xbm)^bg()^fg()"
       noIcon    = "^bg(" ++ myBgColor ++ ")^fg(" ++ myUrgentColor ++ ")?^bg()^fg()"
 
@@ -156,32 +156,30 @@ myGSConfig = def {
 }
 
 myLayoutPrompt = inputPromptWithCompl myAutoXPConfig "Layout"
-    (mkComplFunFromList' ["tall", "mtall", "full", "tabs", "grid"])
+    (mkComplFunFromList' ["vertical", "horizontal", "full", "tabs", "grid"])
     ?+ \l -> sendMessage $ JumpToLayout l
 
-mytall  = ResizableTall nmaster delta frac slaves
+vertical  = named "vertical" $ ResizableTall nmaster delta frac slaves
     where
         nmaster = 1
         delta   = 1/100
         frac    = 3/5
         slaves  = [1]
 
-myMtall = Mirror (ResizableTall nmaster delta frac slaves)
+horizontal = named "horizontal" . Mirror $ ResizableTall nmaster delta frac slaves
     where
         nmaster = 1
         delta   = 1/100
         frac    = 1/2
         slaves  = [1]
 
-tall  = named "tall" mytall
-mtall = named "mtall" myMtall
 grid  = named "grid" Grid
 tabs  = named "tabs" (tabbed shrinkText myTabConfig)
 full  = named "full" Full
 
-myLdefault = tall ||| mtall ||| tabs ||| full ||| grid
+myLdefault = vertical ||| horizontal ||| tabs ||| full ||| grid
 
-myLayoutHook = avoidStruts $ smartBorders $ mkToggle1 FULL myLdefault
+myLayoutHook = avoidStruts . smartBorders $ mkToggle1 FULL myLdefault
 
 nsps :: [NamedScratchpad]
 nsps = [
@@ -293,8 +291,8 @@ myKeymap = [
     ("M-t",              withFocused $ windows . W.sink),
     ("M-S-t",            sinkAll),
     ("M-<Esc>",          myLayoutPrompt),
-    ("M-<F1>",           sendMessage $ JumpToLayout "mtall"),
-    ("M-<F2>",           sendMessage $ JumpToLayout "tall"),
+    ("M-<F1>",           sendMessage $ JumpToLayout "horizontal"),
+    ("M-<F2>",           sendMessage $ JumpToLayout "vertical"),
     ("M-<F3>",           sendMessage $ JumpToLayout "full"),
     ("M-<F4>",           sendMessage $ JumpToLayout "tabs"),
     ("M-<F5>",           sendMessage $ JumpToLayout "grid"),
@@ -354,7 +352,7 @@ myKeymap = [
         (myWs 4, cycleThroughLayouts ["full", "tabs"]),
         (myWs 5, cycleThroughLayouts ["full", "tabs"]),
         (myWs 6, cycleThroughLayouts ["full", "tabs"]),
-        ("", cycleThroughLayouts ["full", "mtall", "tall", "tabs", "grid"])
+        ("", cycleThroughLayouts ["full", "horizontal", "vertical", "tabs", "grid"])
     ]),
 
     ("M-q", spawn $ "ghc -e 'XMonad.recompile False >>= flip Control.Monad.unless System.Exit.exitFailure'"
