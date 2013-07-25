@@ -78,6 +78,7 @@ myDzenPP h = def {
     ppLayout          = dzenColor "" "" . myLayoutIcon
 }
 
+myLayoutIcon :: String -> String
 myLayoutIcon layoutName
   | layoutName `elem` layouts = iconFor layoutName
   | otherwise = noIcon
@@ -86,14 +87,18 @@ myLayoutIcon layoutName
       iconFor n = "^bg(" ++ myBgColor ++ ")^fg(" ++ myFgColor ++ ")^i(" ++ myDzDir ++ "/icons/" ++ n ++ ".xbm)^bg()^fg()"
       noIcon    = "^bg(" ++ myBgColor ++ ")^fg(" ++ myUrgentColor ++ ")?^bg()^fg()"
 
+myWorkspaces :: [String]
 myWorkspaces = map return "αβγδεζηθικλμν" ++ ["NSP"]
+
+myWs :: Int -> String
 myWs n = (!!) myWorkspaces $ subtract 1 n
 
 cycleRecentWS' :: [KeySym] -> KeySym -> KeySym -> X ()
 cycleRecentWS' = cycleWindowSets options
- where options w = map (W.view `flip` w) (recentTags w)
-       recentTags w = map W.tag $ tail (wss w) ++ [head (wss w)]
-       wss w = filter (\ws -> W.tag ws /= "NSP") $ W.workspaces w
+  where options w = map (W.view `flip` w) (recentTags w)
+        recentTags w = map W.tag $ tail (wss w) ++ [head (wss w)]
+        wss w = filter isNotScratchpad $ W.workspaces w
+        isNotScratchpad ws = W.tag ws /= "NSP"
 
 myFgColor            = "#333333"
 myOtherFgColor       = "#d0d0d0"
@@ -119,6 +124,7 @@ myDzFont     = "DejaVu Sans-10"
 myTabsFont   = "xft:DejaVu Sans:pixelsize=12"
 myPromptFont = "xft:Consolas:pixelsize=15"
 
+myTabConfig :: Theme
 myTabConfig = def {
     inactiveColor       = myBgColor,
     activeColor         = myOtherFgColor,
@@ -133,6 +139,7 @@ myTabConfig = def {
     fontName            = myTabsFont
 }
 
+myXPConfig :: XPConfig
 myXPConfig = def {
     font              = myPromptFont,
     bgColor           = myOtherFgColor,
@@ -146,6 +153,7 @@ myXPConfig = def {
     historyFilter     = deleteAllDuplicates
 }
 
+myAutoXPConfig :: XPConfig
 myAutoXPConfig = myXPConfig {
     autoComplete = Just 1000
 }
@@ -155,27 +163,20 @@ myGSConfig = def {
     gs_cellwidth  = 150
 }
 
+myLayoutPrompt :: X ()
 myLayoutPrompt = inputPromptWithCompl myAutoXPConfig "Layout"
     (mkComplFunFromList' ["vertical", "horizontal", "full", "tabs", "grid"])
     ?+ \l -> sendMessage $ JumpToLayout l
 
-vertical  = named "vertical" $ ResizableTall nmaster delta frac slaves
-    where
-        nmaster = 1
-        delta   = 1/100
-        frac    = 3/5
-        slaves  = [1]
+vertical = named "vertical" $ ResizableTall nmaster delta frac slaves
+    where (nmaster, delta, frac, slaves) = (1, 1/100, 3/5, [1])
 
 horizontal = named "horizontal" . Mirror $ ResizableTall nmaster delta frac slaves
-    where
-        nmaster = 1
-        delta   = 1/100
-        frac    = 1/2
-        slaves  = [1]
+    where (nmaster, delta, frac, slaves) = (1, 1/100, 1/2, [1])
 
-grid  = named "grid" Grid
-tabs  = named "tabs" (tabbed shrinkText myTabConfig)
-full  = named "full" Full
+grid = named "grid" Grid
+tabs = named "tabs"  $ tabbed shrinkText myTabConfig
+full = named "full" Full
 
 myLdefault = vertical ||| horizontal ||| tabs ||| full ||| grid
 
@@ -195,10 +196,6 @@ nsps = [
        "urxvtc -b 7 -name sp_dev_term -e tmux attach -d -t dev"
        (resource =? "sp_dev_term")
        doFullFloat,
-    NS "gcolor"
-       "gcolor2"
-       (className =? "Gcolor2")
-       (doSideFloat SE),
     NS "feh"
        ""
        (className =? "feh" <||>
@@ -215,7 +212,9 @@ nsps = [
        doCenterFloat
     ]
 
-isMenu     = isInProperty "_NET_WM_WINDOW_TYPE" "_NET_WM_WINDOW_TYPE_MENU"
+isMenu :: Query Bool
+isMenu = isInProperty "_NET_WM_WINDOW_TYPE" "_NET_WM_WINDOW_TYPE_MENU"
+
 doSink     = ask >>= doF . W.sink
 myCFloats  = ["Gxmessage", "Xmessage", "Skype", "XClock", "Odeskteam-qt4"]
 myCCFloats = ["Xfd", "Gtk-chtheme", "MPlayer", "xmoto", "Simsu", "Lxappearance", "ffplay", "Vlc", "Gtorrentviewer", "Animate", "Pinentry"]
@@ -248,6 +247,7 @@ myAppsHook = composeAll . concat $ [
 
 myManageHook = myAppsHook <+> manageDocks <+> manageSpawn <+> myNSPHook
 
+myKeymap :: [(String, X ())]
 myKeymap = [
     ("M-<Page_Up>",      withFocused (keysResizeWindow (18, 18) (0.5, 0.5))),
     ("M-<Page_Down>",    withFocused (keysResizeWindow (-18, -18) (0.5, 0.5))),
@@ -307,7 +307,6 @@ myKeymap = [
 
     ("M-p", namedScratchpadAction nsps "terminal"),
     ("M-o", namedScratchpadAction nsps "dev-terminal"),
-    ("M-]", namedScratchpadAction nsps "gcolor"),
     ("M-i", namedScratchpadAction nsps "feh"),
     ("M-w", namedScratchpadAction nsps "goldendict"),
     ("M-m", namedScratchpadAction nsps "video-player"),
@@ -386,6 +385,8 @@ myKeymap = [
     ("M-<F11>", spawn "emxkb 1"), -- ukrainian
     ("M-<F12>", spawn "emxkb 2")  -- russian
     ]
+
+myAdditionalKeymap :: XConfig Layout -> [(String, X ())]
 myAdditionalKeymap conf = [
     ("M-S-<Space>",  setLayout $ XMonad.layoutHook conf),
     ("M-S-<Return>", spawn $ XMonad.terminal conf)
