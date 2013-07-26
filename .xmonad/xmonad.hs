@@ -91,7 +91,7 @@ myWorkspaces :: [String]
 myWorkspaces = map return "αβγδεζηθικλμν" ++ ["NSP"]
 
 myWs :: Int -> String
-myWs n = (!!) myWorkspaces $ subtract 1 n
+myWs = (myWorkspaces !!) . subtract 1
 
 cycleRecentWS' :: [KeySym] -> KeySym -> KeySym -> X ()
 cycleRecentWS' = cycleWindowSets options
