@@ -71,17 +71,17 @@ myDzenPP h homeDir = def {
     ppSort            = fmap (.namedScratchpadFilterOutWorkspace) $ ppSort def,
     ppOrder           = \(ws:l:_) -> [ws,l],
     ppOutput          = hPutStrLn h,
-    ppLayout          = dzenColor "" "" . myLayoutIcon homeDir
+    ppLayout          = myLayoutIcon homeDir
 }
 
-myLayoutIcon :: String -> String -> String
+myLayoutIcon :: FilePath -> String -> String
 myLayoutIcon homeDir layoutName
   | layoutName `elem` layouts = icon
   | otherwise = noIcon
     where
       layouts      = ["vertical", "horizontal", "tabs", "full", "Full", "grid"]
-      icon         = "^bg(" ++ myBgColor ++ ")^fg(" ++ myFgColor ++ ")^i(" ++ iconLocation ++ ")^bg()^fg()"
-      noIcon       = "^bg(" ++ myBgColor ++ ")^fg(" ++ myUrgentColor ++ ")?^bg()^fg()"
+      icon         = dzenColor myFgColor myBgColor $ "^i(" ++ iconLocation ++ ")"
+      noIcon       = dzenColor myBgColor myUrgentColor "?"
       iconLocation = homeDir </> ".xmonad" </> "icons" </> layoutName ++ ".xbm"
 
 myWorkspaces :: [String]
