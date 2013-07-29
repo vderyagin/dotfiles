@@ -1,9 +1,13 @@
 import XMonad hiding ( (|||) )
 
-import qualified XMonad.StackSet as W
-
+import qualified Data.Map as M
+import System.Directory
+import System.Exit
+import System.FilePath.Posix
+import qualified XMonad.Actions.ConstrainedResize as Sqr
 import XMonad.Actions.CycleRecentWS
 import XMonad.Actions.CycleSelectedLayouts
+import qualified XMonad.Actions.FlexibleResize as Flex
 import XMonad.Actions.FloatKeys
 import XMonad.Actions.GridSelect
 import XMonad.Actions.NoBorders
@@ -11,15 +15,11 @@ import XMonad.Actions.PerWorkspaceKeys
 import XMonad.Actions.SpawnOn
 import XMonad.Actions.WindowGo
 import XMonad.Actions.WithAll
-import qualified XMonad.Actions.ConstrainedResize as Sqr
-import qualified XMonad.Actions.FlexibleResize as Flex
-
 import XMonad.Hooks.DynamicLog
 import XMonad.Hooks.ManageDocks
 import XMonad.Hooks.ManageHelpers
 import XMonad.Hooks.SetWMName
 import XMonad.Hooks.UrgencyHook
-
 import XMonad.Layout.Grid
 import XMonad.Layout.LayoutCombinators
 import XMonad.Layout.MultiToggle
@@ -28,45 +28,41 @@ import XMonad.Layout.Named
 import XMonad.Layout.NoBorders
 import XMonad.Layout.ResizableTile
 import XMonad.Layout.Tabbed
-
 import XMonad.Prompt
-import XMonad.Prompt.Input
 import qualified XMonad.Prompt.AppLauncher as AL
-
+import XMonad.Prompt.Input
+import qualified XMonad.StackSet as W
 import XMonad.Util.EZConfig
 import XMonad.Util.NamedScratchpad
 import XMonad.Util.Run
 
-import System.Exit
-import qualified Data.Map as M
-
-
 main :: IO ()
 main = do
-    dz <- spawnPipe myStatusBar
-    _  <- spawnPipe myClock
+    dz      <- spawnPipe myStatusBar
+    _       <- spawnPipe myClock
+    homeDir <- getHomeDirectory
 
-    xmonad $ withUrgencyHook NoUrgencyHook $ myConfig dz
+    xmonad $ withUrgencyHook NoUrgencyHook $ myConfig dz homeDir
 
-myConfig dz = def {
+myConfig dz homeDir = def {
     borderWidth        = myBorderWidth,
     clickJustFocuses   = False,
     focusFollowsMouse  = False,
     focusedBorderColor = myFocusedBorderColor,
     keys               = \conf -> mkKeymap conf (myAdditionalKeymap conf),
     layoutHook         = myLayoutHook,
-    logHook            = dynamicLogWithPP $ myDzenPP dz,
+    logHook            = dynamicLogWithPP $ myDzenPP dz homeDir,
     manageHook         = myManageHook,
     modMask            = mod4Mask,
     mouseBindings      = myMouseBindings,
     normalBorderColor  = myNormalBorderColor,
-    startupHook        = return () >> checkKeymap (myConfig dz) myKeymap >> setWMName "LG3D",
+    startupHook        = return () >> checkKeymap (myConfig dz homeDir) myKeymap >> setWMName "LG3D",
     terminal           = myTerminal,
     workspaces         = myWorkspaces
 }
     `additionalKeysP` myKeymap
 
-myDzenPP h = def {
+myDzenPP h homeDir = def {
     ppCurrent         = dzenColor myFgColor myOtherFgColor . wrap " " " ",
     ppHidden          = dzenColor myFgColor "",
     ppHiddenNoWindows = dzenColor myOtherFgColor "",
@@ -75,17 +71,18 @@ myDzenPP h = def {
     ppSort            = fmap (.namedScratchpadFilterOutWorkspace) $ ppSort def,
     ppOrder           = \(ws:l:_) -> [ws,l],
     ppOutput          = hPutStrLn h,
-    ppLayout          = dzenColor "" "" . myLayoutIcon
+    ppLayout          = dzenColor "" "" . myLayoutIcon homeDir
 }
 
-myLayoutIcon :: String -> String
-myLayoutIcon layoutName
-  | layoutName `elem` layouts = iconFor layoutName
+myLayoutIcon :: String -> String -> String
+myLayoutIcon homeDir layoutName
+  | layoutName `elem` layouts = icon
   | otherwise = noIcon
     where
-      layouts   = ["vertical", "horizontal", "tabs", "full", "Full", "grid"]
-      iconFor n = "^bg(" ++ myBgColor ++ ")^fg(" ++ myFgColor ++ ")^i(" ++ myDzDir ++ "/icons/" ++ n ++ ".xbm)^bg()^fg()"
-      noIcon    = "^bg(" ++ myBgColor ++ ")^fg(" ++ myUrgentColor ++ ")?^bg()^fg()"
+      layouts      = ["vertical", "horizontal", "tabs", "full", "Full", "grid"]
+      icon         = "^bg(" ++ myBgColor ++ ")^fg(" ++ myFgColor ++ ")^i(" ++ iconLocation ++ ")^bg()^fg()"
+      noIcon       = "^bg(" ++ myBgColor ++ ")^fg(" ++ myUrgentColor ++ ")?^bg()^fg()"
+      iconLocation = homeDir </> ".xmonad" </> "icons" </> layoutName ++ ".xbm"
 
 myWorkspaces :: [String]
 myWorkspaces = map return "αβγδεζηθικλμν" ++ ["NSP"]
@@ -117,7 +114,6 @@ myStatusBar   = "dzen2 -x '0' -w '" ++ show myStatusOffset ++ "' -ta 'l' -fn '" 
 myClock       = myDzenClock ++ " | dzen2 -x '" ++ show myStatusOffset ++ "' -w '" ++ show (myScreenWidth - myStatusOffset) ++ "' -ta 'r' -fn '" ++ myDzFont ++ myDzDefArgs
 myDzenClock   = "while :; do LC_ALL='uk_UA.UTF-8' date +'^fg(#2e5aa7)%A, %d^fg() - %T ' || exit 1; sleep 1; done"
 myDzDefArgs   = "' -y '0' -h '16' -bg '" ++ myBgColor ++ "' -fg '" ++ myFgColor ++ "' -e 'onstart=lower'"
-myDzDir       = "/home/vderyagin/.xmonad"
 
 myMonoDzFont = "DejaVu Sans Mono-10"
 myDzFont     = "DejaVu Sans-10"
