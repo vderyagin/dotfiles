@@ -181,9 +181,13 @@ full = named "full" Full
 
 myLayoutHook = avoidStruts .
                smartBorders .
-               mkToggle (REFLECTX ?? REFLECTY ?? MIRROR ?? FULL ?? EOT) .
-               onWorkspaces (map myWs [2..4]) (tabs ||| vertical ||| horizontal ||| full ||| grid) $
-               vertical ||| horizontal ||| tabs ||| full ||| grid
+               mkToggle modifiers .
+               onWorkspaces (map myWs [2..4]) tabsFirstLayout $
+               defaultLayout
+  where
+    modifiers       = REFLECTX ?? REFLECTY ?? MIRROR ?? FULL ?? EOT
+    defaultLayout   = vertical ||| horizontal ||| tabs ||| full ||| grid
+    tabsFirstLayout = tabs ||| vertical ||| horizontal ||| full ||| grid
 
 nsps :: [NamedScratchpad]
 nsps = [
