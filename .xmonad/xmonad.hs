@@ -26,6 +26,7 @@ import XMonad.Layout.MultiToggle
 import XMonad.Layout.MultiToggle.Instances
 import XMonad.Layout.Named
 import XMonad.Layout.NoBorders
+import XMonad.Layout.Reflect
 import XMonad.Layout.ResizableTile
 import XMonad.Layout.Tabbed
 import XMonad.Prompt
@@ -77,13 +78,14 @@ myDzenPP h homeDir = def {
 
 myLayoutIcon :: FilePath -> String -> String
 myLayoutIcon homeDir layoutName
-  | layoutName `elem` layouts = icon
+  | layout `elem` layouts = icon
   | otherwise = noIcon
     where
+      layout       = last . words $ layoutName
       layouts      = ["vertical", "horizontal", "tabs", "full", "Full", "grid"]
       icon         = dzenColor myFgColor myBgColor $ "^i(" ++ iconLocation ++ ")"
-      noIcon       = dzenColor myBgColor myUrgentColor "?"
-      iconLocation = homeDir </> ".xmonad" </> "icons" </> layoutName ++ ".xbm"
+      noIcon       = dzenColor myUrgentColor myBgColor "?"
+      iconLocation = homeDir </> ".xmonad" </> "icons" </> layout ++ ".xbm"
 
 myWorkspaces :: [String]
 myWorkspaces = map return "αβγδεζηθικλμν" ++ ["NSP"]
@@ -178,7 +180,10 @@ full = named "full" Full
 
 myLdefault = vertical ||| horizontal ||| tabs ||| full ||| grid
 
-myLayoutHook = avoidStruts . smartBorders $ mkToggle1 FULL myLdefault
+myLayoutHook = avoidStruts . smartBorders $
+               mkToggle (single REFLECTX) $
+               mkToggle (single REFLECTY) $
+               mkToggle1 FULL myLdefault
 
 nsps :: [NamedScratchpad]
 nsps = [
@@ -295,6 +300,10 @@ myKeymap = [
     ("M-<F4>",           sendMessage $ JumpToLayout "tabs"),
     ("M-<F5>",           sendMessage $ JumpToLayout "grid"),
     ("M-f",              sendMessage $ Toggle FULL),
+    ("M-<R>",            sendMessage $ Toggle REFLECTX),
+    ("M-<L>",            sendMessage $ Toggle REFLECTX),
+    ("M-<U>",            sendMessage $ Toggle REFLECTY),
+    ("M-<D>",            sendMessage $ Toggle REFLECTY),
     ("M-S-n",            refresh),
     ("M-S-m",            windows W.focusMaster),
     ("M-S-q",            io exitSuccess),
