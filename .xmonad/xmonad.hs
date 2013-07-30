@@ -26,6 +26,7 @@ import XMonad.Layout.MultiToggle
 import XMonad.Layout.MultiToggle.Instances
 import XMonad.Layout.Named
 import XMonad.Layout.NoBorders
+import XMonad.Layout.PerWorkspace
 import XMonad.Layout.Reflect
 import XMonad.Layout.ResizableTile
 import XMonad.Layout.Tabbed
@@ -175,15 +176,14 @@ horizontal = named "horizontal" . Mirror $ ResizableTall nmaster delta frac slav
     where (nmaster, delta, frac, slaves) = (1, 1/100, 1/2, [1])
 
 grid = named "grid" Grid
-tabs = named "tabs"  $ tabbed shrinkText myTabConfig
+tabs = named "tabs" $ tabbed shrinkText myTabConfig
 full = named "full" Full
 
-myLdefault = vertical ||| horizontal ||| tabs ||| full ||| grid
-
-myLayoutHook = avoidStruts . smartBorders $
-               mkToggle (single REFLECTX) $
-               mkToggle (single REFLECTY) $
-               mkToggle1 FULL myLdefault
+myLayoutHook = avoidStruts .
+               smartBorders .
+               mkToggle (REFLECTX ?? REFLECTY ?? MIRROR ?? FULL ?? EOT) .
+               onWorkspaces (map myWs [2..4]) (tabs ||| vertical ||| horizontal ||| full ||| grid) $
+               vertical ||| horizontal ||| tabs ||| full ||| grid
 
 nsps :: [NamedScratchpad]
 nsps = [
@@ -294,16 +294,17 @@ myKeymap = [
     ("M-t",              withFocused $ windows . W.sink),
     ("M-S-t",            sinkAll),
     ("M-<Esc>",          myLayoutPrompt),
-    ("M-<F1>",           sendMessage $ JumpToLayout "horizontal"),
-    ("M-<F2>",           sendMessage $ JumpToLayout "vertical"),
-    ("M-<F3>",           sendMessage $ JumpToLayout "full"),
-    ("M-<F4>",           sendMessage $ JumpToLayout "tabs"),
+    ("M-<F1>",           sendMessage $ JumpToLayout "vertical"),
+    ("M-<F2>",           sendMessage $ JumpToLayout "horizontal"),
+    ("M-<F3>",           sendMessage $ JumpToLayout "tabs"),
+    ("M-<F4>",           sendMessage $ JumpToLayout "full"),
     ("M-<F5>",           sendMessage $ JumpToLayout "grid"),
     ("M-f",              sendMessage $ Toggle FULL),
     ("M-<R>",            sendMessage $ Toggle REFLECTX),
     ("M-<L>",            sendMessage $ Toggle REFLECTX),
     ("M-<U>",            sendMessage $ Toggle REFLECTY),
     ("M-<D>",            sendMessage $ Toggle REFLECTY),
+    ("M-r",              sendMessage $ Toggle MIRROR),
     ("M-S-n",            refresh),
     ("M-S-m",            windows W.focusMaster),
     ("M-S-q",            io exitSuccess),
