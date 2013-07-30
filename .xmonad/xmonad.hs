@@ -38,8 +38,9 @@ import XMonad.Util.Run
 
 main :: IO ()
 main = do
-    dz      <- spawnPipe myStatusBar
-    _       <- spawnPipe myClock
+    spawnPipe myClock
+
+    dz <- spawnPipe myStatusBar
     homeDir <- getHomeDirectory
 
     xmonad $ withUrgencyHook NoUrgencyHook $ myConfig dz homeDir
@@ -66,9 +67,9 @@ myDzenPP h homeDir = def {
     ppCurrent         = dzenColor myFgColor myOtherFgColor . wrap " " " ",
     ppHidden          = dzenColor myFgColor "",
     ppHiddenNoWindows = dzenColor myOtherFgColor "",
-    ppUrgent          = dzenColor myBgColor myUrgentColor . dzenStrip . wrap " " " ",
-    ppSep             = dzenColor "" "" " ",
-    ppSort            = fmap (.namedScratchpadFilterOutWorkspace) $ ppSort def,
+    ppUrgent          = dzenColor myBgColor myUrgentColor . wrap " " " ",
+    ppSep             = " ",
+    ppSort            = fmap (. namedScratchpadFilterOutWorkspace) $ ppSort def,
     ppOrder           = \(ws:l:_) -> [ws,l],
     ppOutput          = hPutStrLn h,
     ppLayout          = myLayoutIcon homeDir
@@ -154,6 +155,7 @@ myAutoXPConfig = myXPConfig {
     autoComplete = Just 1000
 }
 
+myGSConfig :: GSConfig Window
 myGSConfig = def {
     gs_cellheight = 40,
     gs_cellwidth  = 150
