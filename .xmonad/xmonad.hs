@@ -323,9 +323,8 @@ myKeymap = [
     ("M-w", namedScratchpadAction nsps "goldendict"),
     ("M-m", namedScratchpadAction nsps "video-player"),
 
-    -- both may be replaced by "eject -T"
-    ("M-x <U>", spawn "eject -t"),
-    ("M-x <D>", spawn "eject"),
+    ("M-x <U>", spawn "pmount-gui"),
+    ("M-x <D>", spawn "pmount-gui -u"),
 
     ("M-x k m", spawn "killall -9 mplayer"),
     ("M-x k f", spawn "killall -9 firefox"),
