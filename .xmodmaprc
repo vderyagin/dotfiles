@@ -15,8 +15,8 @@ keysym Control_R = Return
 keysym Return = Control_R
 add Control = Control_R
 
-! Set Menu to Super
-keysym Menu = Super_R
+! set keysym for Menu to be accessible from xmonad:
+keysym Menu = XF86MenuKB
 
 ! Add some keys (for emxkb)
 ! (numbers' values are just free keycodes)
