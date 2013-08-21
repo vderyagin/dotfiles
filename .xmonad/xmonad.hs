@@ -224,14 +224,16 @@ isMenu = isInProperty "_NET_WM_WINDOW_TYPE" "_NET_WM_WINDOW_TYPE_MENU"
 
 doSink     = ask >>= doF . W.sink
 myCFloats  = ["Gxmessage", "Xmessage", "Skype", "XClock", "Odeskteam-qt4"]
-myCCFloats = ["Xfd", "Gtk-chtheme", "MPlayer", "xmoto", "Simsu", "Lxappearance", "ffplay", "Vlc", "Gtorrentviewer", "Animate", "Pinentry"]
+myCCFloats = ["Xfd", "Gtk-chtheme", "MPlayer", "xmoto", "Simsu", "Lxappearance", "ffplay", "Vlc", "Gtorrentviewer", "Animate", "Pinentry", "Pmount-gui"]
 myTFloats  = ["glxgears", "Event Tester"]
+myTCFloats = ["Clementine image viewer"]
 myRIgnores = ["stalonetray", "desktop_window"]
 myCSinks   = ["Dwarf_Fortress"]
 myNSPHook  = namedScratchpadManageHook nsps
 myAppsHook = composeAll . concat $ [
     [className =? c --> doFloat       | c <- myCFloats],
     [title     =? t --> doFloat       | t <- myTFloats],
+    [title     =? t --> doCenterFloat | t <- myTCFloats],
     [className =? f --> doCenterFloat | f <- myCCFloats],
     [className =? f --> doSink        | f <- myCSinks],
     [resource  =? i --> doIgnore      | i <- myRIgnores],
