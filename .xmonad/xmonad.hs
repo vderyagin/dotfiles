@@ -370,31 +370,29 @@ myKeymap = [
     ("M-d", spawnHere $ "dmenu_run -i -b -p 'Run:' -fn 'Consolas-12:normal' -l 10"
                       ++ " -nb '" ++ myOtherFgColor ++ "' -nf '" ++ myFgColor
                       ++ "' -sb '" ++ myFgColor ++ "' -sf '" ++ myOtherFgColor ++ "'"),
-    ("<XF86Mail>",               spawn "mpc -q toggle"),
-    ("<XF86AudioPlay>",          spawn "mpc -q prev"),
-    ("<XF86AudioMute>",          spawn "mpc -q next"),
-    ("<XF86AudioRaiseVolume>",   spawn "mpc -q volume +5"),
-    ("<XF86AudioLowerVolume>",   spawn "mpc -q volume -5"),
-    ("S-<XF86AudioRaiseVolume>", spawn "mpc -q volume +1"),
-    ("S-<XF86AudioLowerVolume>", spawn "mpc -q volume -1"),
-    ("C-<XF86AudioRaiseVolume>", spawn "mpc -q volume 100"),
-    ("C-<XF86AudioLowerVolume>", spawn "mpc -q volume 0"),
-    ("C-<XF86AudioPlay>",        spawn "mpc -q seek -00:00:10"),
-    ("C-<XF86AudioMute>",        spawn "mpc -q seek +00:00:10"),
-    ("S-<XF86AudioPlay>",        spawn "mpc -q seek -10%"),
-    ("S-<XF86AudioMute>",        spawn "mpc -q seek +10%"),
-    ("<XF86HomePage>",           spawn "mpc -q random"),
-    ("C-<XF86HomePage>",         spawn "mpc -q shuffle"),
-    ("<XF86Favorites>",          spawn "mpc -q clear"),
-    ("S-<XF86Favorites>",        spawn "mpc -q crop"),
-    ("<XF86Calculator>",         spawn "amixer -q set Master toggle"),
-    ("C-<XF86Calculator>",       spawn "rake --system lock_screen"),
-    ("<XF86MyComputer>",         spawn "mpd_status"),
-    ("<XF86AudioMedia>",         spawn "toggle_screen_orientation"),
 
-    ("M-<F10>", spawn "emxkb 0"), -- english
-    ("M-<F11>", spawn "emxkb 1"), -- ukrainian
-    ("M-<F12>", spawn "emxkb 2")  -- russian
+    ("<XF86AudioMute>",  spawn "amixer -q set Master toggle"),
+    ("M-<XF86HomePage>", spawn "toggle_screen_orientation"),
+    ("<XF86HomePage>",   spawn "rake --system lock_screen"),
+
+    ("<XF86Mail>",   spawn "mpc -q toggle"),
+    ("M-<XF86Mail>", spawn "mpd_status"),
+
+    ("<XF86AudioLowerVolume>", spawn "mpc -q volume -5"),
+    ("<XF86AudioRaiseVolume>", spawn "mpc -q volume +5"),
+
+    ("C-<XF86AudioLowerVolume>", spawn "mpc -q prev"),
+    ("C-<XF86AudioRaiseVolume>", spawn "mpc -q next"),
+
+    ("S-<XF86AudioLowerVolume>", spawn "mpc -q seek -00:00:10"),
+    ("S-<XF86AudioRaiseVolume>", spawn "mpc -q seek +00:00:10"),
+
+    ("M1-<XF86AudioLowerVolume>", spawn "mpc -q seek -10%"),
+    ("M1-<XF86AudioRaiseVolume>", spawn "mpc -q seek +10%"),
+
+    ("<XF86MenuKB>",   spawn "emxkb 0"), -- english
+    ("C-<XF86MenuKB>", spawn "emxkb 1"), -- ukrainian
+    ("S-<XF86MenuKB>", spawn "emxkb 2")  -- russian
     ]
 
 myAdditionalKeymap :: XConfig Layout -> [(String, X ())]
