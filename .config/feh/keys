@@ -16,3 +16,6 @@ scroll_up Down
 scroll_down Up
 scroll_left Right
 scroll_right Left
+
+zoom_in plus
+zoom_out minus
