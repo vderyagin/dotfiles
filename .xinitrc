@@ -9,7 +9,7 @@ case $1 in
     rake --system wp:random
     xsetroot -cursor_name left_ptr &
     unclutter -root -idle 2 -noevents -jitter 3 &
-    CopyConsole -daemon
+    CopyConsole -daemon &
     setxkbmap -layout 'us,ua,ru'
     numlockx on
     xmodmap "${HOME}/.xmodmaprc"
