@@ -1,0 +1,13 @@
+# fs=yes
+
+volstep=1
+volume=6
+softvol-max=300
+
+vo=xv
+ao=alsa
+
+slang=en,eng,uk,ukr,ru,rus
+alang=jpn,en,eng,uk,ukr,ru,rus
+
+af=scaletempo
