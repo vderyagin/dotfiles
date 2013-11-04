@@ -20,7 +20,7 @@ cache-min=1.0
 cache-seek-min=50
 
 slang=en,eng,uk,ukr,ru,rus
-alang=en,eng,uk,ukr,ru,rus
+alang=jp,jpn,en,eng,uk,ukr,ru,rus
 
 subfont-osd-scale=2
 subfont-text-scale=2
