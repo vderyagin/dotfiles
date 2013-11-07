@@ -10,6 +10,7 @@
 *.exe
 *.o
 *.so
+*.hi
 
 # Packages
 *.7z
@@ -37,6 +38,9 @@ Thumbs.db
 
 # Flymake temporary files
 .#*
+
+# Emacs autosave stuff
+[#]*[#]
 
 # sass cache
 .sass-cache/
