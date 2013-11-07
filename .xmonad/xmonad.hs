@@ -329,7 +329,7 @@ myKeymap = [
     ("M-x <U>", spawn "pmount-gui"),
     ("M-x <D>", spawn "pmount-gui -u"),
 
-    ("M-x k m", spawn "killall -9 mplayer"),
+    ("M-x k m", spawn "killall -9 mplayer mpv"),
     ("M-x k f", spawn "killall -9 firefox"),
     ("M-x k c", spawn "killall -9 chrome"),
     ("M-x k e", spawn "killall -9 emacs"),
