@@ -376,8 +376,7 @@ myKeymap = [
 
     ("<XF86AudioMute>",  spawn "amixer -q set Master toggle"),
     ("M-<XF86HomePage>", spawn "toggle_screen_orientation"),
-    ("S-<XF86HomePage>", spawn "xset dpms force suspend"),
-    ("<XF86HomePage>",   spawn "rake --system lock_screen"),
+    ("<XF86HomePage>",   spawn "sleep 0.1; xset dpms force suspend; rake --system lock_screen"),
 
     ("<XF86Mail>",   spawn "mpc -q toggle"),
     ("M-<XF86Mail>", spawn "mpd_status"),
