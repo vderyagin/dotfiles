@@ -802,7 +802,7 @@ SpaceAroundBlockBraces:
 
 SpaceInsideHashLiteralBraces:
   # Valid values (for both parameters) are: space, no_space
-  EnforcedStyle: space
+  EnforcedStyle: no_space
   EnforcedStyleForEmptyBraces: no_space
 
 # TrivialAccessors doesn't require exact name matches and doesn't allow
