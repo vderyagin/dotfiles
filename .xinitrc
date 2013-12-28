@@ -11,7 +11,6 @@ case $1 in
     unclutter -root -idle 2 -noevents -jitter 3 &
     CopyConsole -daemon &
     setxkbmap -layout 'us,ua,ru'
-    numlockx on
     xmodmap "${HOME}/.xmodmaprc"
     ;;
 esac
