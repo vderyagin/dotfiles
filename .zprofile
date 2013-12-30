@@ -6,6 +6,7 @@ if [ $EUID -ne 0 ]; then
   export GIST_PATH="${HOME}/repos/gists"
   export VIDEO_DOWNLOAD_DIR="${HOME}/video"
   export PODCASTS_DIR="${HOME}/podcasts"
+  export WALLPAPERS_DIR="${HOME}/.wallpapers"
 
   export GOPATH="${HOME}/repos/go"
 
