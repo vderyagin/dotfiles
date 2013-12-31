@@ -19,8 +19,5 @@ fi
 
 declare -U path
 
-if [ ! -z $TMUX ]; then
-  export PAGER="TERM='screen-256color' most"
-fi
-
+export PAGER='most'
 export READNULLCMD="$PAGER"
