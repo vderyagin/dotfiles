@@ -334,8 +334,8 @@ myKeymap = [
     ("M-x k c", spawn "killall -9 chrome"),
     ("M-x k e", spawn "killall -9 emacs"),
 
-    ("M-x m",     spawn "mplayer tv:// -tv driver=v4l2:device=/dev/video0 -fps 60 -vf mirror,screenshot"),
-    ("M-x M-m",   spawn "mplayer tv:// -tv driver=v4l2:device=/dev/video0 -fps 60 -vf screenshot"),
+    ("M-x m",     spawn "mpv tv:// -tv driver=v4l2:device=/dev/video0 -fps 60 -vf mirror,screenshot"),
+    ("M-x M-m",   spawn "mpv tv:// -tv driver=v4l2:device=/dev/video0 -fps 60 -vf screenshot"),
     ("M-x M-e",   spawn "emacsclient -c -a ''"),
     ("M-x M-f",   spawn "firefox -no-remote" >> windows (W.view (myWs 1))),
     ("M-x M-c",   spawn "chromium" >> windows (W.view (myWs 1))),
