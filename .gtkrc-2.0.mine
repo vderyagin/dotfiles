@@ -1,2 +1,4 @@
 # -*- mode: conf -*-
 gtk-key-theme-name="Emacs"
+gtk-recent-files-max-age=0
+gtk-recent-files-limit=0
