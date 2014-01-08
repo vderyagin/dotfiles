@@ -86,7 +86,7 @@ myLayoutIcon homeDir layoutName
       layouts      = ["vertical", "horizontal", "tabs", "full", "Full", "grid"]
       icon         = dzenColor myFgColor myBgColor $ "^i(" ++ iconLocation ++ ")"
       noIcon       = dzenColor myUrgentColor myBgColor "?"
-      iconLocation = homeDir </> ".xmonad" </> "icons" </> layout ++ ".xbm"
+      iconLocation = homeDir </> ".icons" </> "dzen2" </> layout ++ ".xbm"
 
 myWorkspaces :: [String]
 myWorkspaces = map return "αβγδεζηθικλμν" ++ ["NSP"]
