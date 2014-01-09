@@ -116,7 +116,7 @@ myTerminal    = "urxvtc"
 myBorderWidth = 1
 myStatusBar   = "dzen2 -x '0' -w '" ++ show myStatusOffset ++ "' -ta 'l' -fn '" ++ myMonoDzFont ++ myDzDefArgs
 myClock       = myDzenClock ++ " | dzen2 -x '" ++ show myStatusOffset ++ "' -w '" ++ show (myScreenWidth - myStatusOffset) ++ "' -ta 'r' -fn '" ++ myDzFont ++ myDzDefArgs
-myDzenClock   = "while :; do LC_ALL='uk_UA.UTF-8' date +'^fg(#2e5aa7)%A, %d^fg() - %T ' || exit 1; sleep 1; done"
+myDzenClock   = "while :; do date +'^fg(#2e5aa7)%A, %d^fg() - %T ' || exit 1; sleep 1; done"
 myDzDefArgs   = "' -y '0' -h '16' -bg '" ++ myBgColor ++ "' -fg '" ++ myFgColor ++ "' -e 'onstart=lower'"
 
 myMonoDzFont = "DejaVu Sans Mono-10"
