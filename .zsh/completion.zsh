@@ -1,3 +1,9 @@
+if [ -f "${HOME}/.travis/travis.sh" ]; then
+  source "${HOME}/.travis/travis.sh"
+else
+  echo "Travis completions are not installed"
+fi
+
 if [ -d "${HOME}/src/zsh-completions/src" ]; then
   fpath=(
     "${HOME}/src/zsh-completions/src"
