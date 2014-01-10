@@ -79,6 +79,7 @@ myConfig dz sysInfo = def {
     workspaces         = myWorkspaces
 }
     `additionalKeysP` myKeymap
+    `additionalKeysP` myMultimediaKeymap host
     `additionalKeysP` myLanguageKeymap host
     where
         home = homeDirectory sysInfo
@@ -386,8 +387,11 @@ myKeymap = [
                   ++ " && killall -9 dzen2; xmonad --restart"),
     ("M-d", spawnHere $ "dmenu_run -i -b -p 'Run:' -fn 'Consolas-12:normal' -l 10"
                       ++ " -nb '" ++ myOtherFgColor ++ "' -nf '" ++ myFgColor
-                      ++ "' -sb '" ++ myFgColor ++ "' -sf '" ++ myOtherFgColor ++ "'"),
+                      ++ "' -sb '" ++ myFgColor ++ "' -sf '" ++ myOtherFgColor ++ "'")
+    ]
 
+myMultimediaKeymap :: HostName -> [(String, X ())]
+myMultimediaKeymap "desktop" = [
     ("<XF86AudioMute>",  spawn "amixer -q set Master toggle"),
     ("M-<XF86HomePage>", spawn "toggle_screen_orientation"),
     ("<XF86HomePage>",   spawn "sleep 0.1; xset dpms force suspend; rake --system lock_screen"),
@@ -407,6 +411,22 @@ myKeymap = [
 
     ("M1-<XF86AudioLowerVolume>", spawn "mpc -q seek -10%"),
     ("M1-<XF86AudioRaiseVolume>", spawn "mpc -q seek +10%")
+    ]
+
+myMultimediaKeymap "thinkpad" = [
+    ("<XF86AudioLowerVolume>", spawn "mpc -q volume -5"),
+    ("<XF86AudioRaiseVolume>", spawn "mpc -q volume +5"),
+
+    ("<XF86AudioPlay>", spawn "mpc -q toggle"),
+
+    ("<XF86AudioPrev>", spawn "mpc -q prev"),
+    ("<XF86AudioNext>", spawn "mpc -q next"),
+
+    ("S-<XF86AudioPrev>", spawn "mpc -q seek -00:00:10"),
+    ("S-<XF86AudioNext>", spawn "mpc -q seek +00:00:10"),
+
+    ("M1-<XF86AudioPrev>", spawn "mpc -q seek -10%"),
+    ("M1-<XF86AudioNext>", spawn "mpc -q seek +10%")
     ]
 
 myLanguageKeymap :: HostName -> [(String, X ())]
