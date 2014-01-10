@@ -40,7 +40,7 @@ import XMonad.Util.NamedScratchpad
 import XMonad.Util.Run
 
 data SystemInfo = SystemInfo {
-    homeDir       :: String,
+    homeDirectory :: String,
     localHostName :: String
 }
 
@@ -51,7 +51,7 @@ getSystemInfo = do
 
     return SystemInfo {
         localHostName = host,
-        homeDir = home
+        homeDirectory = home
     }
 
 main :: IO ()
@@ -80,7 +80,7 @@ myConfig dz sysInfo = def {
 }
     `additionalKeysP` myKeymap
     where
-        home = homeDir sysInfo
+        home = homeDirectory sysInfo
 
 myDzenPP h homeDir = def {
     ppCurrent         = dzenColor myFgColor myOtherFgColor . wrap " " " ",
