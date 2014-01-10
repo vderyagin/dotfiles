@@ -201,7 +201,7 @@ nsps = [
        doFullFloat,
     NS "feh"
        ""
-       (className =? "feh" <||>
+       (className =? "image-viewer" <||>
         className =? "Animate")
        doCenterFloat,
     NS "video-player"
@@ -318,7 +318,7 @@ myKeymap = [
 
     ("M-p", namedScratchpadAction nsps "terminal"),
     ("M-o", namedScratchpadAction nsps "dev-terminal"),
-    ("M-i", namedScratchpadAction nsps "feh"),
+    ("M-i", namedScratchpadAction nsps "image-viewer"),
     ("M-m", namedScratchpadAction nsps "video-player"),
 
     ("M-x <U>", spawn "pmount-gui"),
