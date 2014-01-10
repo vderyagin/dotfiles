@@ -1,6 +1,6 @@
 #! /bin/sh
 
-case hostname in
+case `hostname` in
   (desktop)
     case $1 in
       (openbox)
