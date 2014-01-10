@@ -191,10 +191,6 @@ myLayoutHook = avoidStruts .
 
 nsps :: [NamedScratchpad]
 nsps = [
-    NS "goldendict"
-       "goldendict"
-       (title =? "GoldenDict")
-       (customFloating $ W.RationalRect (1/10) (1/14) (1/2) (6/7)),
     NS "terminal"
        "urxvtc -name sp_term -e tmux attach -d -t main"
        (resource =? "sp_term")
@@ -323,7 +319,6 @@ myKeymap = [
     ("M-p", namedScratchpadAction nsps "terminal"),
     ("M-o", namedScratchpadAction nsps "dev-terminal"),
     ("M-i", namedScratchpadAction nsps "feh"),
-    ("M-w", namedScratchpadAction nsps "goldendict"),
     ("M-m", namedScratchpadAction nsps "video-player"),
 
     ("M-x <U>", spawn "pmount-gui"),
