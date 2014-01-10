@@ -1,4 +1,14 @@
+eval `dircolors`
+
 unset RUBYOPT
+
+export HISTFILE="${HOME}/.zsh_history"
+export HISTSIZE=50000
+export SAVEHIST=999999
+export XDG_CONFIG_HOME="${HOME}/.config"
+export EDITOR='em'
+export PAGER='most'
+export READNULLCMD="$PAGER"
 
 declare -T INFOPATH infopath
 
@@ -22,6 +32,15 @@ if [ $EUID -ne 0 ]; then
     $path
   )
 
+  cdpath=(
+    "${GOPATH}/src/github.com/${USER}"
+    "${HOME}/repos/dev"
+    "${HOME}/repos/exercises"
+    "${HOME}/repos/forks"
+    "${HOME}/repos/misc"
+    $cdpath
+  )
+
   manpath=(
     "${HOME}/misc/man"
     $manpath
@@ -33,6 +52,6 @@ if [ $EUID -ne 0 ]; then
   )
 fi
 
-for var in path manpath infopath; do
+for var in path cdpath manpath infopath; do
   declare -U "${var}"
 done
