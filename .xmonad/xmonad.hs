@@ -417,7 +417,12 @@ myMultimediaKeymap "thinkpad" = [
     ("S-<XF86AudioNext>", spawn "mpc -q seek +00:00:10"),
 
     ("M1-<XF86AudioPrev>", spawn "mpc -q seek -10%"),
-    ("M1-<XF86AudioNext>", spawn "mpc -q seek +10%")
+    ("M1-<XF86AudioNext>", spawn "mpc -q seek +10%"),
+
+    ("<XF86ScreenSaver>", spawn "rake --system lock_screen"),
+    ("<XF86Display>", spawn "xset dpms force off"),
+
+    ("<XF86Sleep>", spawn "gksu pm-suspend")
     ]
 
 myLanguageKeymap :: HostName -> [(String, X ())]
