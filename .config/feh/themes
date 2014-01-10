@@ -1,1 +1,1 @@
-feh --fullscreen --recursive --scale-down --fontpath /usr/share/fonts/consolas --font consolab/14 --no-jump-on-resort --info "echo '%t %wx%h %S'" --limit-height 1024 --limit-width 1280 --thumb-height 128 --thumb-width 128
+feh --fullscreen --recursive --scale-down --fontpath /home/vderyagin/.fonts/consolas --font consolab/14 --no-jump-on-resort --info "echo '%t %wx%h %S'" --limit-height 1024 --limit-width 1280 --thumb-height 128 --thumb-width 128
