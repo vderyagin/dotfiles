@@ -15,6 +15,7 @@ case hostname in
         CopyAgent &
         setxkbmap -layout 'us,ua,ru'
         xmodmap "${HOME}/.xmodmaprc"
+        xmodmap -e 'pointer = 3 2 1 4 5 6 7 8 9 10'
         ;;
     esac
 

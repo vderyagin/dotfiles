@@ -23,6 +23,3 @@ keysym Menu = XF86MenuKB
 keycode 6272=F31
 keycode 6273=F32
 keycode 6274=F33
-
-! Left-handed mouse
-pointer = 3 2 1 4 5 6 7 8 9 10
