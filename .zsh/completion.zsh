@@ -1,7 +1,11 @@
-fpath=(
-  "${HOME}/repos/src/zsh-completions/src"
-  $fpath
-)
+if [ -d "${HOME}/src/zsh-completions/src" ]; then
+  fpath=(
+    "${HOME}/src/zsh-completions/src"
+    $fpath
+  )
+else
+  echo '~/src/zsh-completions/src directory does not exist'
+fi
 
 autoload -Uz compinit
 compinit
