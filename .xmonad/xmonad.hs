@@ -40,8 +40,8 @@ import XMonad.Util.NamedScratchpad
 import XMonad.Util.Run
 
 data SystemInfo = SystemInfo {
-    homeDirectory :: String,
-    localHostName :: String
+    homeDirectory :: FilePath,
+    localHostName :: HostName
 }
 
 getSystemInfo :: IO SystemInfo
