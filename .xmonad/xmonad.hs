@@ -1,6 +1,7 @@
 import XMonad hiding ( (|||) )
 
 import qualified Data.Map as M
+import Network.BSD
 import System.Directory
 import System.Exit
 import System.FilePath.Posix
@@ -38,32 +39,48 @@ import XMonad.Util.EZConfig
 import XMonad.Util.NamedScratchpad
 import XMonad.Util.Run
 
+data SystemInfo = SystemInfo {
+    homeDir       :: String,
+    localHostName :: String
+}
+
+getSystemInfo :: IO SystemInfo
+getSystemInfo = do
+    home <- getHomeDirectory
+    host <- getHostName
+
+    return SystemInfo {
+        localHostName = host,
+        homeDir = home
+    }
+
 main :: IO ()
 main = do
     spawnPipe myClock
-
     dz <- spawnPipe myStatusBar
-    homeDir <- getHomeDirectory
+    sysInfo <- getSystemInfo
 
-    xmonad $ withUrgencyHook NoUrgencyHook $ myConfig dz homeDir
+    xmonad $ withUrgencyHook NoUrgencyHook $ myConfig dz sysInfo
 
-myConfig dz homeDir = def {
+myConfig dz sysInfo = def {
     borderWidth        = myBorderWidth,
     clickJustFocuses   = False,
     focusFollowsMouse  = False,
     focusedBorderColor = myFocusedBorderColor,
     keys               = \conf -> mkKeymap conf (myAdditionalKeymap conf),
     layoutHook         = myLayoutHook,
-    logHook            = dynamicLogWithPP $ myDzenPP dz homeDir,
+    logHook            = dynamicLogWithPP $ myDzenPP dz home,
     manageHook         = myManageHook,
     modMask            = mod4Mask,
     mouseBindings      = myMouseBindings,
     normalBorderColor  = myNormalBorderColor,
-    startupHook        = return () >> checkKeymap (myConfig dz homeDir) myKeymap >> setWMName "LG3D",
+    startupHook        = return () >> checkKeymap (myConfig dz sysInfo) myKeymap >> setWMName "LG3D",
     terminal           = myTerminal,
     workspaces         = myWorkspaces
 }
     `additionalKeysP` myKeymap
+    where
+        home = homeDir sysInfo
 
 myDzenPP h homeDir = def {
     ppCurrent         = dzenColor myFgColor myOtherFgColor . wrap " " " ",
