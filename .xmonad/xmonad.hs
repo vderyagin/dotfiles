@@ -79,8 +79,10 @@ myConfig dz sysInfo = def {
     workspaces         = myWorkspaces
 }
     `additionalKeysP` myKeymap
+    `additionalKeysP` myLanguageKeymap host
     where
         home = homeDirectory sysInfo
+        host = localHostName sysInfo
 
 myDzenPP h homeDir = def {
     ppCurrent         = dzenColor myFgColor myOtherFgColor . wrap " " " ",
@@ -404,11 +406,20 @@ myKeymap = [
     ("S-<XF86AudioRaiseVolume>", spawn "mpc -q seek +00:00:10"),
 
     ("M1-<XF86AudioLowerVolume>", spawn "mpc -q seek -10%"),
-    ("M1-<XF86AudioRaiseVolume>", spawn "mpc -q seek +10%"),
+    ("M1-<XF86AudioRaiseVolume>", spawn "mpc -q seek +10%")
+    ]
 
+myLanguageKeymap :: HostName -> [(String, X ())]
+myLanguageKeymap "desktop" = [
     ("<XF86MenuKB>",   spawn "emxkb 0"), -- english
     ("C-<XF86MenuKB>", spawn "emxkb 1"), -- ukrainian
     ("S-<XF86MenuKB>", spawn "emxkb 2")  -- russian
+    ]
+
+myLanguageKeymap "thinkpad" = [
+    ("M-<F10>", spawn "emxkb 0"), -- english
+    ("M-<F11>", spawn "emxkb 1"), -- ukrainian
+    ("M-<F12>", spawn "emxkb 2")  -- russian
     ]
 
 myAdditionalKeymap :: XConfig Layout -> [(String, X ())]
