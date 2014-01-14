@@ -13,3 +13,12 @@ slang=en,eng,uk,ukr,ru,rus
 alang=jpn,en,eng,uk,ukr,ru,rus
 
 af=scaletempo
+
+[protocol.dvd]
+deinterlace=yes
+
+[protocol.dvdnav]
+deinterlace=yes
+
+[extension.vob]
+deinterlace=yes
