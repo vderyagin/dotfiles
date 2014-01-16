@@ -63,7 +63,7 @@ getSystemInfo = do
 main :: IO ()
 main = do
     sysInfo <- getSystemInfo
-    spawnPipe $ myClock sysInfo
+    spawnPipe . myClock $ screenWidth sysInfo
     dz <- spawnPipe myStatusBar
 
     xmonad $ withUrgencyHook NoUrgencyHook $ myConfig dz sysInfo
@@ -140,7 +140,7 @@ myStatusOffset = 350
 myTerminal    = "urxvtc"
 myBorderWidth = 1
 myStatusBar   = "dzen2 -x '0' -w '" ++ show myStatusOffset ++ "' -ta 'l' -fn '" ++ myMonoDzFont ++ myDzDefArgs
-myClock sysInfo = myDzenClock ++ " | dzen2 -x '" ++ show myStatusOffset ++ "' -w '" ++ show (screenWidth sysInfo - myStatusOffset) ++ "' -ta 'r' -fn '" ++ myDzFont ++ myDzDefArgs
+myClock scrWidth = myDzenClock ++ " | dzen2 -x '" ++ show myStatusOffset ++ "' -w '" ++ show (scrWidth - myStatusOffset) ++ "' -ta 'r' -fn '" ++ myDzFont ++ myDzDefArgs
 myDzenClock   = "while :; do date +'^fg(#2e5aa7)%A, %d^fg() - %T ' || exit 1; sleep 1; done"
 myDzDefArgs   = "' -y '0' -h '16' -bg '" ++ myBgColor ++ "' -fg '" ++ myFgColor ++ "' -e 'onstart=lower'"
 
