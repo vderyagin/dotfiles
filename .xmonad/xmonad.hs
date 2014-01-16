@@ -80,11 +80,12 @@ myConfig dz sysInfo = def {
     modMask            = mod4Mask,
     mouseBindings      = myMouseBindings,
     normalBorderColor  = myNormalBorderColor,
-    startupHook        = return () >> checkKeymap (myConfig dz sysInfo) (myKeymap sysInfo) >> setWMName "LG3D",
+    startupHook        = return () >> checkKeymap (myConfig dz sysInfo) myKeymap >> setWMName "LG3D",
     terminal           = myTerminal,
     workspaces         = myWorkspaces
 }
-    `additionalKeysP` myKeymap sysInfo
+    `additionalKeysP` myKeymap
+    `additionalKeysP` namedScratchpadsKeymap sysInfo
     `additionalKeysP` myMultimediaKeymap host
     `additionalKeysP` myLanguageKeymap host
     where
@@ -278,8 +279,8 @@ myAppsHook = composeAll . concat $ [
 
 myManageHook sysInfo = myAppsHook <+> manageDocks <+> manageSpawn <+> myNSPHook sysInfo
 
-myKeymap :: SystemInfo -> [(String, X ())]
-myKeymap sysInfo = [
+myKeymap :: [(String, X ())]
+myKeymap = [
     ("M-<Page_Up>",      withFocused (keysResizeWindow (18, 18) (0.5, 0.5))),
     ("M-<Page_Down>",    withFocused (keysResizeWindow (-18, -18) (0.5, 0.5))),
     ("M-C-<L>",          withFocused (keysResizeWindow (-18, 0) (0.5, 0.5))),
@@ -332,11 +333,6 @@ myKeymap sysInfo = [
     ("M-S-<Print>",      spawn "sleep 0.2 && scrot -s"),
     ("M-C-<Print>",      spawn "rake -g share_screenshot"),
 
-    ("M-p", namedScratchpadAction (nsps sysInfo) "terminal"),
-    ("M-o", namedScratchpadAction (nsps sysInfo) "dev-terminal"),
-    ("M-i", namedScratchpadAction (nsps sysInfo) "image-viewer"),
-    ("M-m", namedScratchpadAction (nsps sysInfo) "video-player"),
-
     ("M-x <U>", spawn "pmount-gui"),
     ("M-x <D>", spawn "pmount-gui -u"),
 
@@ -385,6 +381,15 @@ myKeymap sysInfo = [
                       ++ " -nb '" ++ myOtherFgColor ++ "' -nf '" ++ myFgColor
                       ++ "' -sb '" ++ myFgColor ++ "' -sf '" ++ myOtherFgColor ++ "'")
     ]
+
+namedScratchpadsKeymap :: SystemInfo -> [(String, X ())]
+namedScratchpadsKeymap sysInfo = [
+  ("M-p", openNamedScratchpad "terminal"),
+  ("M-o", openNamedScratchpad "dev-terminal"),
+  ("M-i", openNamedScratchpad "image-viewer"),
+  ("M-m", openNamedScratchpad "video-player")
+  ]
+  where openNamedScratchpad = namedScratchpadAction $ nsps sysInfo
 
 myMultimediaKeymap :: HostName -> [(String, X ())]
 myMultimediaKeymap "desktop" = [
