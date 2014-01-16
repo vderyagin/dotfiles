@@ -4,6 +4,7 @@ import qualified Data.Map as M
 import Network.BSD
 import System.Directory
 import System.Exit
+import System.Environment
 import System.FilePath.Posix
 import qualified XMonad.Actions.ConstrainedResize as Sqr
 import XMonad.Actions.CycleRecentWS
@@ -41,24 +42,29 @@ import XMonad.Util.Run
 
 data SystemInfo = SystemInfo {
     homeDirectory :: FilePath,
-    localHostName :: HostName
+    localHostName :: HostName,
+    screenWidth :: Int,
+    screenHeight :: Int
 }
 
 getSystemInfo :: IO SystemInfo
 getSystemInfo = do
     home <- getHomeDirectory
     host <- getHostName
+    [w, h] <- mapM getEnv ["SCREEN_WIDTH", "SCREEN_HEIGHT"]
 
     return SystemInfo {
         localHostName = host,
-        homeDirectory = home
+        homeDirectory = home,
+        screenWidth = read w,
+        screenHeight = read h
     }
 
 main :: IO ()
 main = do
-    spawnPipe myClock
-    dz <- spawnPipe myStatusBar
     sysInfo <- getSystemInfo
+    spawnPipe $ myClock sysInfo
+    dz <- spawnPipe myStatusBar
 
     xmonad $ withUrgencyHook NoUrgencyHook $ myConfig dz sysInfo
 
@@ -70,15 +76,15 @@ myConfig dz sysInfo = def {
     keys               = \conf -> mkKeymap conf (myAdditionalKeymap conf),
     layoutHook         = myLayoutHook,
     logHook            = dynamicLogWithPP $ myDzenPP dz home,
-    manageHook         = myManageHook,
+    manageHook         = myManageHook sysInfo,
     modMask            = mod4Mask,
     mouseBindings      = myMouseBindings,
     normalBorderColor  = myNormalBorderColor,
-    startupHook        = return () >> checkKeymap (myConfig dz sysInfo) myKeymap >> setWMName "LG3D",
+    startupHook        = return () >> checkKeymap (myConfig dz sysInfo) (myKeymap sysInfo) >> setWMName "LG3D",
     terminal           = myTerminal,
     workspaces         = myWorkspaces
 }
-    `additionalKeysP` myKeymap
+    `additionalKeysP` myKeymap sysInfo
     `additionalKeysP` myMultimediaKeymap host
     `additionalKeysP` myLanguageKeymap host
     where
@@ -129,13 +135,11 @@ myNormalBorderColor  = myOtherFgColor
 myFocusedBorderColor = myUrgentColor
 
 myStatusOffset = 350
-myScreenWidth =  1920
-myScreenHeight = 1080
 
 myTerminal    = "urxvtc"
 myBorderWidth = 1
 myStatusBar   = "dzen2 -x '0' -w '" ++ show myStatusOffset ++ "' -ta 'l' -fn '" ++ myMonoDzFont ++ myDzDefArgs
-myClock       = myDzenClock ++ " | dzen2 -x '" ++ show myStatusOffset ++ "' -w '" ++ show (myScreenWidth - myStatusOffset) ++ "' -ta 'r' -fn '" ++ myDzFont ++ myDzDefArgs
+myClock sysInfo = myDzenClock ++ " | dzen2 -x '" ++ show myStatusOffset ++ "' -w '" ++ show (screenWidth sysInfo - myStatusOffset) ++ "' -ta 'r' -fn '" ++ myDzFont ++ myDzDefArgs
 myDzenClock   = "while :; do date +'^fg(#2e5aa7)%A, %d^fg() - %T ' || exit 1; sleep 1; done"
 myDzDefArgs   = "' -y '0' -h '16' -bg '" ++ myBgColor ++ "' -fg '" ++ myFgColor ++ "' -e 'onstart=lower'"
 
@@ -209,12 +213,12 @@ myLayoutHook = avoidStruts .
     defaultLayout   = vertical ||| horizontal ||| tabs ||| full ||| grid
     tabsFirstLayout = tabs ||| vertical ||| horizontal ||| full ||| grid
 
-nsps :: [NamedScratchpad]
-nsps = [
+nsps :: SystemInfo -> [NamedScratchpad]
+nsps sysInfo = [
     NS "terminal"
        "urxvtc -name sp_term -e tmux attach -d -t main"
        (resource =? "sp_term")
-       (customFloating $ W.RationalRect ((myScreenWidth-1255)/myScreenWidth/2) ((myScreenHeight-760)/myScreenHeight/2) (1255/myScreenWidth) (760/myScreenHeight)),
+       (customFloating $ W.RationalRect ((w-1255)/w/2) ((h-760)/h/2) (1255/w) (760/h)),
     NS "dev-terminal"
        "urxvtc -b 7 -name sp_dev_term -e tmux attach -d -t dev"
        (resource =? "sp_dev_term")
@@ -235,6 +239,7 @@ nsps = [
         className =? "Plugin-container")
        doCenterFloat
     ]
+  where [w, h] = map (toRational . ($ sysInfo)) [screenWidth, screenHeight]
 
 isMenu :: Query Bool
 isMenu = isInProperty "_NET_WM_WINDOW_TYPE" "_NET_WM_WINDOW_TYPE_MENU"
@@ -246,7 +251,7 @@ myTFloats  = ["glxgears", "Event Tester"]
 myTCFloats = ["Clementine image viewer"]
 myRIgnores = ["stalonetray", "desktop_window"]
 myCSinks   = ["Dwarf_Fortress"]
-myNSPHook  = namedScratchpadManageHook nsps
+myNSPHook sysInfo  = namedScratchpadManageHook $ nsps sysInfo
 myAppsHook = composeAll . concat $ [
     [className =? c --> doFloat       | c <- myCFloats],
     [title     =? t --> doFloat       | t <- myTFloats],
@@ -271,10 +276,10 @@ myAppsHook = composeAll . concat $ [
     [isDialog     --> doCenterFloat]
     ]
 
-myManageHook = myAppsHook <+> manageDocks <+> manageSpawn <+> myNSPHook
+myManageHook sysInfo = myAppsHook <+> manageDocks <+> manageSpawn <+> myNSPHook sysInfo
 
-myKeymap :: [(String, X ())]
-myKeymap = [
+myKeymap :: SystemInfo -> [(String, X ())]
+myKeymap sysInfo = [
     ("M-<Page_Up>",      withFocused (keysResizeWindow (18, 18) (0.5, 0.5))),
     ("M-<Page_Down>",    withFocused (keysResizeWindow (-18, -18) (0.5, 0.5))),
     ("M-C-<L>",          withFocused (keysResizeWindow (-18, 0) (0.5, 0.5))),
@@ -327,10 +332,10 @@ myKeymap = [
     ("M-S-<Print>",      spawn "sleep 0.2 && scrot -s"),
     ("M-C-<Print>",      spawn "rake -g share_screenshot"),
 
-    ("M-p", namedScratchpadAction nsps "terminal"),
-    ("M-o", namedScratchpadAction nsps "dev-terminal"),
-    ("M-i", namedScratchpadAction nsps "image-viewer"),
-    ("M-m", namedScratchpadAction nsps "video-player"),
+    ("M-p", namedScratchpadAction (nsps sysInfo) "terminal"),
+    ("M-o", namedScratchpadAction (nsps sysInfo) "dev-terminal"),
+    ("M-i", namedScratchpadAction (nsps sysInfo) "image-viewer"),
+    ("M-m", namedScratchpadAction (nsps sysInfo) "video-player"),
 
     ("M-x <U>", spawn "pmount-gui"),
     ("M-x <D>", spawn "pmount-gui -u"),
