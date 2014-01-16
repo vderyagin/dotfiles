@@ -1,5 +1,10 @@
 #! /bin/sh
 
+read SCREEN_WIDTH SCREEN_HEIGHT <<<$(xdpyinfo | grep dimensions | awk '{print $2}' | awk -Fx '{print $1, $2}')
+
+export SCREEN_WIDTH
+export SCREEN_HEIGHT
+
 case `hostname` in
   (desktop)
     case $1 in
