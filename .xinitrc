@@ -32,6 +32,7 @@ case `hostname` in
     unclutter -root -idle 2 -noevents -jitter 3 &
     setxkbmap -layout 'us,ua,ru'
     xmodmap "${HOME}/.xmodmaprc"
+    xmodmap "${HOME}/.xmodmaprc_remap_print_screen_to_super"
     rake --system wp:random
 
     ssh-add < /dev/null &
