@@ -29,13 +29,13 @@ case `hostname` in
     xmodmap "${HOME}/.xmodmaprc"
     rake --system wp:random
 
+    ssh-add < /dev/null &
+
     stalonetray &
     CopyAgent &
     dbus-launch nm-applet --sm-disable &
     blueman-applet &
     (sleep 3; batti) &
-
-    ssh-add < /dev/null
 
     ck-launch-session dbus-launch --exit-with-session --sh-syntax xmonad
     ;;
