@@ -22,6 +22,7 @@ case `hostname` in
     ck-launch-session dbus-launch --exit-with-session --sh-syntax "${session}"
     ;;
   (thinkpad)
+    xbacklight -set 80%
     xsetroot -cursor_name left_ptr
     unclutter -root -idle 2 -noevents -jitter 3 &
     setxkbmap -layout 'us,ua,ru'
