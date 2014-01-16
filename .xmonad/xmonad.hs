@@ -224,9 +224,9 @@ nsps sysInfo = [
        "urxvtc -b 7 -name sp_dev_term -e tmux attach -d -t dev"
        (resource =? "sp_dev_term")
        doFullFloat,
-    NS "feh"
+    NS "image-viewer"
        ""
-       (className =? "image-viewer" <||>
+       (className =? "feh" <||>
         className =? "Animate")
        doCenterFloat,
     NS "video-player"
