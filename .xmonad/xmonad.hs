@@ -418,7 +418,8 @@ myMultimediaKeymap "thinkpad" = [
     ("<XF86AudioLowerVolume>", spawn "mpc -q volume -5"),
     ("<XF86AudioRaiseVolume>", spawn "mpc -q volume +5"),
 
-    ("<XF86AudioPlay>", spawn "mpc -q toggle"),
+    ("<XF86AudioPlay>",   spawn "mpc -q toggle"),
+    ("M-<XF86AudioPlay>", spawn "mpd_status"),
 
     ("<XF86AudioPrev>", spawn "mpc -q prev"),
     ("<XF86AudioNext>", spawn "mpc -q next"),
