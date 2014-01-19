@@ -325,6 +325,13 @@ myKeymap = [
     ("M-<U>",            sendMessage $ Toggle REFLECTY),
     ("M-<D>",            sendMessage $ Toggle REFLECTY),
     ("M-r",              sendMessage $ Toggle MIRROR),
+
+    ("M-w", screenWorkspace 0 >>= flip whenJust (windows . W.view)),
+    ("M-S-w", screenWorkspace 0 >>= flip whenJust (windows . W.shift)),
+    ("M-e", screenWorkspace 1 >>= flip whenJust (windows . W.view)),
+    ("M-S-e", screenWorkspace 1 >>= flip whenJust (windows . W.shift)),
+
+
     ("M-S-n",            refresh),
     ("M-S-m",            windows W.focusMaster),
     ("M-S-q",            io exitSuccess),
