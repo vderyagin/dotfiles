@@ -16,6 +16,7 @@ case `hostname` in
         rake --system wp:random
         xsetroot -cursor_name left_ptr &
         unclutter -root -idle 2 -noevents -jitter 3 &
+        mail-notification &
         stalonetray &
         CopyAgent &
         setxkbmap -layout 'us,ua,ru'
@@ -41,6 +42,7 @@ case `hostname` in
     CopyAgent &
     dbus-launch nm-applet --sm-disable &
     blueman-applet &
+    mail-notification &
     (sleep 3; batti) &
 
     ck-launch-session dbus-launch --exit-with-session --sh-syntax xmonad
