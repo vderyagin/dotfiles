@@ -58,6 +58,3 @@ unstaged = diff
 
 history = log --follow --patch
 track = checkout -t
-
-[include]
-path = ~/.github_credentials
