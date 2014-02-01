@@ -37,3 +37,7 @@ alias cdgo="cd $GOPATH/src/github.com/$USER"
 alias mencoder='nice -n 19 mencoder'
 alias mkisofs='nice -n 19 mkisofs'
 alias oggenc='nice -n 19 oggenc'
+
+if [ $EUID -ne 0 ]; then
+  alias rfkill='/usr/sbin/rfkill'
+fi
