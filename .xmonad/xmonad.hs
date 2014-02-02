@@ -440,7 +440,7 @@ myMultimediaKeymap "thinkpad" = [
     ("<XF86ScreenSaver>", spawn "rake --system lock_screen"),
     ("<XF86Display>", spawn "xset dpms force off"),
 
-    ("<XF86Sleep>", spawn "gksu pm-suspend")
+    ("<XF86Sleep>", spawn "sudo pm-suspend")
     ]
 
 myLanguageKeymap :: HostName -> [(String, X ())]
