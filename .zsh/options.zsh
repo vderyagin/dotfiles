@@ -73,9 +73,13 @@ precmd() {
   else
     current_dir_color='red'
   fi
+
+  if [ ! -z "${SSH_CLIENT}" ]; then
+    shell_is_remote='%F{red}SSH%f '
+  fi
 }
 
-PROMPT=$' %B%1(j.%F{magenta}[%j]%f .)%F{${current_dir_color}}%3~ %(?..%B%K{red}%F{white} %? %f%k )%(#.%F{red}.%F{green})>>>%f%b '
+PROMPT=$' %B${shell_is_remote}%1(j.%F{magenta}[%j]%f .)%F{${current_dir_color}}%3~ %(?..%B%K{red}%F{white} %? %f%k )%(#.%F{red}.%F{green})>>>%f%b '
 RPROMPT=$'${vcs_info_msg_0_}'
 
 if [ $TERM = "dumb" ]; then               # tramp
