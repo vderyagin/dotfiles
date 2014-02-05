@@ -1,5 +1,4 @@
 unlimit
-limit stack 3072
 limit core 0
 limit -s coredumpsize 0
 umask 022
