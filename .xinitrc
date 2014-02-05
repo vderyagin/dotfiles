@@ -18,6 +18,7 @@ case `hostname` in
         unclutter -root -idle 2 -noevents -jitter 3 &
         stalonetray &
         CopyAgent &
+        dbus-launch nm-applet --sm-disable &
         setxkbmap -layout 'us,ua,ru'
         xmodmap "${HOME}/.xmodmaprc"
         xmodmap "${HOME}/.xmodmaprc_left_handed_mouse"
