@@ -402,8 +402,8 @@ myMultimediaKeymap :: HostName -> [(String, X ())]
 myMultimediaKeymap "desktop" = [
     ("<XF86AudioMute>",  spawn "amixer -q set Master toggle"),
     ("M-<XF86HomePage>", spawn "toggle_screen_orientation"),
-    ("<XF86HomePage>",   spawn "sleep 0.1; xset dpms force suspend; rake --system lock_screen"),
-    ("C-<XF86HomePage>", spawn "sleep 0.1; xset dpms force suspend"),
+    ("<XF86HomePage>",   spawn "sleep 0.5; xset dpms force suspend; rake --system lock_screen"),
+    ("C-<XF86HomePage>", spawn "sleep 0.5; xset dpms force suspend"),
 
     ("<XF86Mail>",   spawn "mpc -q toggle"),
     ("M-<XF86Mail>", spawn "mpd_status"),
@@ -438,7 +438,7 @@ myMultimediaKeymap "thinkpad" = [
     ("M1-<XF86AudioNext>", spawn "mpc -q seek +10%"),
 
     ("<XF86ScreenSaver>", spawn "rake --system lock_screen"),
-    ("<XF86Display>", spawn "xset dpms force off"),
+    ("<XF86Display>", spawn "sleep 0.5; xset dpms force off"),
 
     ("<XF86Sleep>", spawn "sudo pm-suspend")
     ]
