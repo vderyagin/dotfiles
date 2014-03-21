@@ -1,10 +1,11 @@
 import XMonad hiding ( (|||) )
 
+import Control.Applicative
 import qualified Data.Map as M
 import Network.BSD
 import System.Directory
-import System.Exit
 import System.Environment
+import System.Exit
 import System.FilePath.Posix
 import qualified XMonad.Actions.ConstrainedResize as Sqr
 import XMonad.Actions.CycleRecentWS
@@ -98,7 +99,7 @@ myDzenPP h homeDir = def {
     ppHiddenNoWindows = dzenColor myOtherFgColor "",
     ppUrgent          = dzenColor myBgColor myUrgentColor . wrap " " " ",
     ppSep             = " ",
-    ppSort            = fmap (. namedScratchpadFilterOutWorkspace) $ ppSort def,
+    ppSort            = (. namedScratchpadFilterOutWorkspace) <$> ppSort def,
     ppOrder           = \(ws:l:_) -> [ws,l],
     ppOutput          = hPutStrLn h,
     ppLayout          = myLayoutIcon homeDir
@@ -471,9 +472,9 @@ myMouseBindings (XConfig {XMonad.modMask = m}) = M.fromList [
     ((m, button1), \w -> focus w >> mouseMoveWindow w),
     ((m, button2), \w -> focus w >> windows W.shiftMaster),
     ((m, button3), \w -> focus w >> Flex.mouseResizeWindow w),
-    ((m, button4), \_ -> windows W.focusUp),
-    ((m, button5), \_ -> windows W.focusDown),
+    ((m, button4), const $ windows W.focusUp),
+    ((m, button5), const $ windows W.focusDown),
     ((m .|. shiftMask, button3), \w -> focus w >> Sqr.mouseResizeWindow w True),
-    ((m .|. shiftMask, button4), \_ -> windows W.swapUp),
-    ((m .|. shiftMask, button5), \_ -> windows W.swapDown)
+    ((m .|. shiftMask, button4), const $ windows W.swapUp),
+    ((m .|. shiftMask, button5), const $  windows W.swapDown)
     ]
