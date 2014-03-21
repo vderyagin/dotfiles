@@ -69,29 +69,31 @@ main = do
 
     xmonad $ withUrgencyHook NoUrgencyHook $ myConfig dz sysInfo
 
-myConfig dz sysInfo = def {
-    borderWidth        = myBorderWidth,
-    clickJustFocuses   = False,
-    focusFollowsMouse  = False,
-    focusedBorderColor = myFocusedBorderColor,
-    keys               = \conf -> mkKeymap conf (myAdditionalKeymap conf),
-    layoutHook         = myLayoutHook,
-    logHook            = dynamicLogWithPP $ myDzenPP dz home,
-    manageHook         = myManageHook sysInfo,
-    modMask            = mod4Mask,
-    mouseBindings      = myMouseBindings,
-    normalBorderColor  = myNormalBorderColor,
-    startupHook        = return () >> checkKeymap (myConfig dz sysInfo) myKeymap >> setWMName "LG3D",
-    terminal           = myTerminal,
-    workspaces         = myWorkspaces
-}
-    `additionalKeysP` myKeymap
-    `additionalKeysP` namedScratchpadsKeymap sysInfo
-    `additionalKeysP` myMultimediaKeymap host
-    `additionalKeysP` myLanguageKeymap host
-    where
-        home = homeDirectory sysInfo
-        host = localHostName sysInfo
+myConfig dz sysInfo = foldl additionalKeysP conf myKeyMaps
+  where
+    conf = def {
+      borderWidth        = myBorderWidth,
+      clickJustFocuses   = False,
+      focusFollowsMouse  = False,
+      focusedBorderColor = myFocusedBorderColor,
+      keys               = \c -> mkKeymap c (myAdditionalKeymap c),
+      layoutHook         = myLayoutHook,
+      logHook            = dynamicLogWithPP $ myDzenPP dz home,
+      manageHook         = myManageHook sysInfo,
+      modMask            = mod4Mask,
+      mouseBindings      = myMouseBindings,
+      normalBorderColor  = myNormalBorderColor,
+      startupHook        = mapM_ checkKM myKeyMaps >> setWMName "LG3D",
+      terminal           = myTerminal,
+      workspaces         = myWorkspaces
+    }
+    myKeyMaps = [ myKeymap
+                , namedScratchpadsKeymap sysInfo
+                , myMultimediaKeymap host
+                , myLanguageKeymap host ]
+    home = homeDirectory sysInfo
+    host = localHostName sysInfo
+    checkKM = checkKeymap $ myConfig dz sysInfo
 
 myDzenPP h homeDir = def {
     ppCurrent         = dzenColor myFgColor myOtherFgColor . wrap " " " ",
