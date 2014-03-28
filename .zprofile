@@ -24,11 +24,12 @@ if [ $EUID -ne 0 ]; then
 
   path=(
     "${GOPATH}/bin"
+    "${HOME}/.cabal/bin"
+    "${HOME}/.rbenv/bin"
     "${HOME}/bin"
+    "${HOME}/bin/lib/copy/x86_64"
     "${HOME}/bin/lib/dart-sdk/bin"
     "${HOME}/bin/lib/odeskteam-3.2.13-1-x86_64/usr/bin"
-    "${HOME}/bin/lib/copy/x86_64"
-    "${HOME}/.rbenv/bin"
     "${HOME}/misc/games/bin"
     '/usr/local/heroku/bin'
     $path
