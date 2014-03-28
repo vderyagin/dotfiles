@@ -255,7 +255,7 @@ myTFloats  = ["glxgears", "Event Tester"]
 myTCFloats = ["Clementine image viewer"]
 myRIgnores = ["stalonetray", "desktop_window"]
 myCSinks   = ["Dwarf_Fortress"]
-myNSPHook sysInfo  = namedScratchpadManageHook $ nsps sysInfo
+myNSPHook = namedScratchpadManageHook . nsps
 myAppsHook = composeAll . concat $ [
     [className =? c --> doFloat       | c <- myCFloats],
     [title     =? t --> doFloat       | t <- myTFloats],
@@ -470,6 +470,7 @@ myAdditionalKeymap conf = [
        | (i, j) <- zip (map return "`1234567890-=") (XMonad.workspaces conf)
        , (m, f) <- [("M-", W.view), ("M-S-", W.shift)]
     ]
+
 myMouseBindings (XConfig {XMonad.modMask = m}) = M.fromList [
     ((m, button1), \w -> focus w >> mouseMoveWindow w),
     ((m, button2), \w -> focus w >> windows W.shiftMaster),
@@ -478,5 +479,5 @@ myMouseBindings (XConfig {XMonad.modMask = m}) = M.fromList [
     ((m, button5), const $ windows W.focusDown),
     ((m .|. shiftMask, button3), \w -> focus w >> Sqr.mouseResizeWindow w True),
     ((m .|. shiftMask, button4), const $ windows W.swapUp),
-    ((m .|. shiftMask, button5), const $  windows W.swapDown)
+    ((m .|. shiftMask, button5), const $ windows W.swapDown)
     ]
