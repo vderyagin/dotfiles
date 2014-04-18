@@ -25,9 +25,6 @@ whitespace = warn
 [push]
 default = simple
 
-[pull]
-rebase = true
-
 [magit]
 extension = wip-save
 
