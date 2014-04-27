@@ -21,7 +21,6 @@ case `hostname` in
         dbus-launch nm-applet --sm-disable &
         setxkbmap -layout 'us,ua,ru'
         xmodmap "${HOME}/.xmodmaprc"
-        xmodmap "${HOME}/.xmodmaprc_left_handed_mouse"
         ;;
     esac
 
