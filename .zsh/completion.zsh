@@ -19,6 +19,7 @@ autoload -Uz compinit
 compinit
 
 maybe_load_script "${HOME}/.travis/travis.sh"
+maybe_load_script "${HOME}/misc/google-cloud-sdk/completion.zsh.inc"
 
 zmodload -i zsh/complist
 
