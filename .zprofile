@@ -25,6 +25,7 @@ if [ $EUID -ne 0 ]; then
   path=(
     "${GOPATH}/bin"
     "${HOME}/.cabal/bin"
+    "${HOME}/.cask/bin"
     "${HOME}/.rbenv/bin"
     "${HOME}/bin"
     "${HOME}/bin/lib/copy/x86_64"
