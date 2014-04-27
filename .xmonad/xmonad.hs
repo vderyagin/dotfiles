@@ -6,7 +6,7 @@ import Network.BSD
 import System.Directory
 import System.Environment
 import System.Exit
-import System.FilePath.Posix
+import System.FilePath
 import qualified XMonad.Actions.ConstrainedResize as Sqr
 import XMonad.Actions.CycleRecentWS
 import XMonad.Actions.CycleSelectedLayouts
@@ -48,17 +48,24 @@ data SystemInfo = SystemInfo {
     screenHeight :: Int
 }
 
+scrWidth :: HostName -> Int
+scrWidth "thinkpad" = 1600
+scrWidth "desktop" = 1920
+
+scrHeight :: HostName -> Int
+scrHeight "thinkpad" = 900
+scrHeight "desktop" = 1080
+
 getSystemInfo :: IO SystemInfo
 getSystemInfo = do
     home <- getHomeDirectory
     host <- getHostName
-    [w, h] <- mapM getEnv ["SCREEN_WIDTH", "SCREEN_HEIGHT"]
 
     return SystemInfo {
         localHostName = host,
         homeDirectory = home,
-        screenWidth = read w,
-        screenHeight = read h
+        screenWidth = scrWidth host,
+        screenHeight = scrHeight host
     }
 
 main :: IO ()
