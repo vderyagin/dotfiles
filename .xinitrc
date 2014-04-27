@@ -40,7 +40,6 @@ case `hostname` in
     stalonetray &
     CopyAgent &
     dbus-launch nm-applet --sm-disable &
-    blueman-applet &
     (sleep 3; batti) &
 
     ck-launch-session dbus-launch --exit-with-session --sh-syntax xmonad
