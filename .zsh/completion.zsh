@@ -1,8 +1,10 @@
-if [ -f "${HOME}/.travis/travis.sh" ]; then
-  source "${HOME}/.travis/travis.sh"
-else
-  echo "Travis completions are not installed"
-fi
+maybe_load_script() {
+  if [ -f "$1" ]; then
+    source "$1"
+  else
+    echo "$1 does not exist"
+  fi
+}
 
 if [ -d "${HOME}/src/zsh-completions/src" ]; then
   fpath=(
@@ -15,6 +17,8 @@ fi
 
 autoload -Uz compinit
 compinit
+
+maybe_load_script "${HOME}/.travis/travis.sh"
 
 zmodload -i zsh/complist
 

@@ -31,6 +31,7 @@ if [ $EUID -ne 0 ]; then
     "${HOME}/bin/lib/dart-sdk/bin"
     "${HOME}/bin/lib/odeskteam-3.2.13-1-x86_64/usr/bin"
     "${HOME}/misc/games/bin"
+    "${HOME}/misc/google-cloud-sdk/bin"
     '/usr/local/heroku/bin'
     $path
   )
