@@ -1,6 +1,5 @@
 if [ $EUID -ne 0 ]; then
   eval `keychain --eval`
-  eval "$(rbenv init -)"
 
   if [ -z "$DISPLAY" ] && [ $(tty) = /dev/tty1 ]; then
     startx
