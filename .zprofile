@@ -28,7 +28,6 @@ if [ $EUID -ne 0 ]; then
     "${HOME}/.cask/bin"
     "${HOME}/.rbenv/bin"
     "${HOME}/misc/games/bin"
-    '/usr/local/heroku/bin'
     $path
   )
 
