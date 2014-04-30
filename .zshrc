@@ -2,4 +2,6 @@ for file in `/bin/ls ${HOME}/.zsh/*.zsh`; do
   source "${file}"
 done
 
-source "${HOME}/bin/init.zsh"
+if [ -f "${HOME}/bin/init.zsh" ]; then
+  source "${HOME}/bin/init.zsh"
+fi
