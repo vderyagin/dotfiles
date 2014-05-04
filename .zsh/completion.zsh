@@ -6,9 +6,9 @@ maybe_load_script() {
   fi
 }
 
-if [ -d "${HOME}/src/zsh-completions/src" ]; then
+if [ -d "${HOME}/code/src/zsh-completions/src" ]; then
   fpath=(
-    "${HOME}/src/zsh-completions/src"
+    "${HOME}/code/src/zsh-completions/src"
     $fpath
   )
 else

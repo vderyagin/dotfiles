@@ -20,7 +20,7 @@ if [ $EUID -ne 0 ]; then
   export PODCASTS_DIR="${COPY_SHARED_DIR}/podcasts"
   export WALLPAPERS_DIR="${COPY_SHARED_DIR}/wallpapers"
 
-  export GOPATH="${HOME}/repos/go"
+  export GOPATH="${HOME}/.go"
 
   path=(
     "${GOPATH}/bin"
