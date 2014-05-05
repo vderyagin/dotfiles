@@ -6,15 +6,6 @@ maybe_load_script() {
   fi
 }
 
-if [ -d "${HOME}/code/src/zsh-completions/src" ]; then
-  fpath=(
-    "${HOME}/code/src/zsh-completions/src"
-    $fpath
-  )
-else
-  echo '~/src/zsh-completions/src directory does not exist'
-fi
-
 autoload -Uz compinit
 compinit
 
