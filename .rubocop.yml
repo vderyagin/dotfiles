@@ -521,7 +521,7 @@ TrailingBlankLines:
 
 TrailingComma:
   Description: 'Checks for trailing comma in parameter lists and literals.'
-  Enabled: true
+  Enabled: false
 
 TrailingWhitespace:
   Description: 'Avoid trailing whitespace.'
@@ -1193,7 +1193,7 @@ TrailingBlankLines:
     - final_blank_line
 
 TrailingComma:
-  EnforcedStyleForMultiline: no_comma
+  EnforcedStyleForMultiline: comma
   SupportedStyles:
     - comma
     - no_comma
