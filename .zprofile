@@ -19,6 +19,7 @@ if [ $EUID -ne 0 ]; then
   export VIDEO_DOWNLOAD_DIR="${HOME}/video"
   export PODCASTS_DIR="${COPY_SHARED_DIR}/podcasts"
   export WALLPAPERS_DIR="${COPY_SHARED_DIR}/wallpapers"
+  export DOTFILES_DIR="${HOME}/.dotfiles"
 
   export GOPATH="${HOME}/.go"
 
