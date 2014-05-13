@@ -1,7 +1,3 @@
 for file in `/bin/ls ${HOME}/.zsh/*.zsh`; do
   source "${file}"
 done
-
-if [ -f "${HOME}/bin/init.zsh" ]; then
-  source "${HOME}/bin/init.zsh"
-fi
