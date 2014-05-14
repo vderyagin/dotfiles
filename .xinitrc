@@ -30,7 +30,7 @@ case `hostname` in
     xmodmap "${HOME}/.xmodmaprc_remap_print_screen_to_super"
     rake --system wp:random
 
-    ssh-add < /dev/null &
+    ssh-add -l || ssh-add < /dev/null &
 
     stalonetray &
     CopyAgent &
