@@ -3,7 +3,7 @@
 :m - Prelude
 :m + GOA
 
-setLambdabotHome "/usr/bin"
+setLambdabotHome "/home/vderyagin/.cabal/bin"
 
 :def bs        lambdabot "botsnack"
 :def pl        lambdabot "pl"
