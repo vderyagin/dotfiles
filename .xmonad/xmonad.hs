@@ -460,11 +460,10 @@ myLanguageKeymap "desktop" = [
     ("S-<XF86MenuKB>", spawn "emxkb 2")  -- russian
     ]
 
-myLanguageKeymap "thinkpad" = [
-    ("M-<F10>", spawn "emxkb 0"), -- english
-    ("M-<F11>", spawn "emxkb 1"), -- ukrainian
-    ("M-<F12>", spawn "emxkb 2")  -- russian
-    ]
+myLanguageKeymap "thinkpad" =
+  [ ("<XF86Launch1>",   spawn "set_keyboard_layout")
+  , ("M-<XF86Launch1>", spawn "set_keyboard_layout english")
+  ]
 
 myAdditionalKeymap :: XConfig Layout -> [(String, X ())]
 myAdditionalKeymap conf = [
