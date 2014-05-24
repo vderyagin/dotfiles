@@ -454,11 +454,10 @@ myMultimediaKeymap "thinkpad" = [
     ]
 
 myLanguageKeymap :: HostName -> [(String, X ())]
-myLanguageKeymap "desktop" = [
-    ("<XF86MenuKB>",   spawn "emxkb 0"), -- english
-    ("C-<XF86MenuKB>", spawn "emxkb 1"), -- ukrainian
-    ("S-<XF86MenuKB>", spawn "emxkb 2")  -- russian
-    ]
+myLanguageKeymap "desktop" =
+  [ ("<XF86MenuKb>",   spawn "set_keyboard_layout")
+  , ("M-<XF86MenuKb>", spawn "set_keyboard_layout english")
+  ]
 
 myLanguageKeymap "thinkpad" =
   [ ("<XF86Launch1>",   spawn "set_keyboard_layout")
