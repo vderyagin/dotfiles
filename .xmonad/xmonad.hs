@@ -123,7 +123,7 @@ myLayoutIcon homeDir layoutName
       layouts      = ["vertical", "horizontal", "tabs", "full", "Full", "grid"]
       icon         = dzenColor myFgColor myBgColor $ "^i(" ++ iconLocation ++ ")"
       noIcon       = dzenColor myUrgentColor myBgColor "?"
-      iconLocation = homeDir </> ".icons" </> "dzen2" </> layout ++ ".xbm"
+      iconLocation = homeDir </> ".icons" </> "dzen2" </> layout <.> "xbm"
 
 myWorkspaces :: [String]
 myWorkspaces = map return "αβγδεζηθικλμν" ++ ["NSP"]
@@ -133,9 +133,9 @@ myWs = (myWorkspaces !!) . subtract 1
 
 cycleRecentWS' :: [KeySym] -> KeySym -> KeySym -> X ()
 cycleRecentWS' = cycleWindowSets options
-  where options w = map (W.view `flip` w) (recentTags w)
-        recentTags w = map W.tag $ tail (wss w) ++ [head (wss w)]
-        wss w = filter isNotScratchpad $ W.workspaces w
+  where options w          = map (W.view `flip` w) (recentTags w)
+        recentTags w       = map W.tag $ tail (wss w) ++ [head (wss w)]
+        wss w              = filter isNotScratchpad $ W.workspaces w
         isNotScratchpad ws = W.tag ws /= "NSP"
 
 myFgColor            = "#333333"
