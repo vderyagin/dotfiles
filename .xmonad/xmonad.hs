@@ -40,22 +40,20 @@ import XMonad.Util.EZConfig
 import XMonad.Util.NamedScratchpad
 import XMonad.Util.Run
 
-data SystemInfo = SystemInfo {
-    homeDirectory :: FilePath,
-    localHostName :: HostName,
-    screenWidth :: Int,
-    screenHeight :: Int
-}
-
 type HostName = String
+
+data SystemInfo = SystemInfo { localHostName :: HostName
+                             , screenWidth   :: Int
+                             , screenHeight  :: Int
+                             }
 
 scrWidth :: HostName -> Int
 scrWidth "thinkpad" = 1600
-scrWidth "desktop" = 1920
+scrWidth "desktop"  = 1920
 
 scrHeight :: HostName -> Int
 scrHeight "thinkpad" = 900
-scrHeight "desktop" = 1080
+scrHeight "desktop"  = 1080
 
 getSystemInfo :: IO SystemInfo
 getSystemInfo = do
@@ -65,8 +63,8 @@ getSystemInfo = do
     return SystemInfo {
         localHostName = host,
         homeDirectory = home,
-        screenWidth = scrWidth host,
-        screenHeight = scrHeight host
+        screenWidth   = scrWidth host,
+        screenHeight  = scrHeight host
     }
 
 main :: IO ()
