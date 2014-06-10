@@ -2,11 +2,10 @@ import XMonad hiding ( (|||) )
 
 import Control.Applicative
 import qualified Data.Map as M
-import Network.BSD
 import System.Directory
-import System.Environment
 import System.Exit
 import System.FilePath
+import System.Posix.Unistd
 import qualified XMonad.Actions.ConstrainedResize as Sqr
 import XMonad.Actions.CycleRecentWS
 import XMonad.Actions.CycleSelectedLayouts
@@ -48,6 +47,8 @@ data SystemInfo = SystemInfo {
     screenHeight :: Int
 }
 
+type HostName = String
+
 scrWidth :: HostName -> Int
 scrWidth "thinkpad" = 1600
 scrWidth "desktop" = 1920
@@ -59,7 +60,7 @@ scrHeight "desktop" = 1080
 getSystemInfo :: IO SystemInfo
 getSystemInfo = do
     home <- getHomeDirectory
-    host <- getHostName
+    host <- nodeName <$> getSystemID
 
     return SystemInfo {
         localHostName = host,
