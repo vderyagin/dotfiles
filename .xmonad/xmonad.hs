@@ -42,7 +42,8 @@ import XMonad.Util.Run
 
 type HostName = String
 
-data SystemInfo = SystemInfo { localHostName :: HostName
+data SystemInfo = SystemInfo { homeDirectory :: FilePath
+                             , localHostName :: HostName
                              , screenWidth   :: Int
                              , screenHeight  :: Int
                              }
