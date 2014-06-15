@@ -5,6 +5,9 @@ umask 022
 
 export WORDCHARS=''
 
+autoload colors
+colors
+
 autoload -U zcalc
 
 autoload -Uz url-quote-magic

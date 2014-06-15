@@ -1,7 +1,7 @@
 alias -s ebuild=em
 alias -s gif=animate
 alias -s torrent=torrentinfo
-alias -s pdf='mupdf -r 96'
+alias -s pdf=mupdf
 
 for ext in htm html; do
   alias -s $ext=firefox
@@ -35,3 +35,9 @@ alias dirs='dirs -v'
 if [ $EUID -ne 0 ]; then
   alias rfkill='/usr/sbin/rfkill'
 fi
+
+alias -g NUL='> /dev/null 2>&1'
+alias -g ENUL='2> /dev/null'
+alias -g ERR='2>>( sed --unbuffered --expression="s/.*/$fg_bold[red]&$reset_color/" 1>&2 )'
+alias -g P="2>&1 | $PAGER"
+alias -g L='| wc --lines'
