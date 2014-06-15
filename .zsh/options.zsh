@@ -17,6 +17,7 @@ unsetopt pushd_to_home
 setopt pushd_ignore_dups
 unsetopt auto_cd
 
+setopt hist_verify
 setopt bang_hist
 setopt hist_allow_clobber
 setopt hist_fcntl_lock
