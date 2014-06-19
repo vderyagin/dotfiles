@@ -42,6 +42,6 @@ fi
 alias -g NUL='> /dev/null 2>&1'
 alias -g ENUL='2> /dev/null'
 alias -g ERR='2>>( sed --unbuffered --expression="s/.*/$fg_bold[red]&$reset_color/" 1>&2 )'
-alias -g P="2>&1 | $PAGER"
-alias -g L='| wc --lines'
-alias -g D='DISPLAY=:0.0'
+alias -g PG="2>&1 | $PAGER"
+alias -g LC='| wc --lines'
+alias -g DISP='DISPLAY=:0.0'
