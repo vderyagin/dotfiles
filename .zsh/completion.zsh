@@ -1,5 +1,15 @@
+maybe_load_script() {
+  if [ -f "$1" ]; then
+    source "$1"
+  else
+    echo "$1 does not exist"
+  fi
+}
+
 autoload -Uz compinit
 compinit
+
+maybe_load_script "${HOME}/.travis/travis.sh"
 
 zmodload -i zsh/complist
 
