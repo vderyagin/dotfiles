@@ -13,9 +13,6 @@ autoload -U zcalc
 autoload -Uz url-quote-magic
 zle -N self-insert url-quote-magic
 
-autoload -U zmv
-alias mmv='noglob zmv -W'
-
 unsetopt pushd_to_home
 setopt pushd_ignore_dups
 unsetopt auto_cd
