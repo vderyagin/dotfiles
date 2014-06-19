@@ -8,8 +8,7 @@ bindkey '^i' complete-word
 setopt menu_complete
 setopt complete_in_word
 
-# zstyle contexts make-up: ':completion:function:completer:command:argument:tag:'
-zstyle ':completion:::::' completer _expand _complete _ignored _approximate
+zstyle ':completion:*' completer _expand _complete _ignored _approximate _correct
 
 zstyle ':completion:*' format %B%d%b
 zstyle ':completion:*:warnings' format '%BNo matches%b: %d'
@@ -33,3 +32,5 @@ zstyle ':completion:*:(^approximate):*' matcher-list '+m:{a-z}={A-Z}'
 
 zstyle ':completion:*' list-colors ${(s.:.)LS_COLORS}
 zstyle ':completion:*' insert-tab true
+
+zstyle ':completion:*:cd:*' ignore-parents parent pwd
