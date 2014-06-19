@@ -1,5 +1,7 @@
 bindkey -e                                # emacs-style bindings
 
+bindkey ' ' magic-space
+
 bindkey '\C-xu' universal-argument
 bindkey '\e[2~' overwrite-mode            # INS
 
