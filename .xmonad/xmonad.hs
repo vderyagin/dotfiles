@@ -227,7 +227,7 @@ myLayoutHook = avoidStruts .
 nsps :: [NamedScratchpad]
 nsps = [
     NS "terminal"
-       "urxvtc -geometry 130x38 -w 10 -name sp_term -e tmux attach -d -t main"
+       "urxvtc -geometry 117x38 -w 10 -name sp_term -e tmux attach -d -t main"
        (resource =? "sp_term")
        doCenterFloat,
     NS "dev-terminal"
