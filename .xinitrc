@@ -35,7 +35,9 @@ case `hostname` in
     stalonetray &
     CopyAgent &
     dbus-launch nm-applet --sm-disable &
-    (sleep 3; batti) &
+    # make ptbatterysystemtray happy:
+    upower -i /org/freedesktop/UPower/devices/battery_BAT0 >/dev/null 2>&1
+    (sleep 3; ptbatterysystemtray) &
 
     ck-launch-session dbus-launch --exit-with-session --sh-syntax xmonad
     ;;
