@@ -95,7 +95,7 @@ myConfig dz sysInfo = foldl additionalKeysP conf myKeyMaps
       workspaces         = myWorkspaces
     }
     myKeyMaps = [ myKeymap
-                , namedScratchpadsKeymap sysInfo
+                , namedScratchpadsKeymap
                 , myMultimediaKeymap host
                 , myLanguageKeymap host ]
     home = homeDirectory sysInfo
@@ -224,12 +224,12 @@ myLayoutHook = avoidStruts .
     defaultLayout   = vertical ||| horizontal ||| tabs ||| full ||| grid
     tabsFirstLayout = tabs ||| vertical ||| horizontal ||| full ||| grid
 
-nsps :: SystemInfo -> [NamedScratchpad]
-nsps sysInfo = [
+nsps :: [NamedScratchpad]
+nsps = [
     NS "terminal"
-       "urxvtc -name sp_term -e tmux attach -d -t main"
+       "urxvtc -geometry 130x38 -w 10 -name sp_term -e tmux attach -d -t main"
        (resource =? "sp_term")
-       (customFloating $ W.RationalRect ((w-1255)/w/2) ((h-760)/h/2) (1255/w) (760/h)),
+       doCenterFloat,
     NS "dev-terminal"
        "urxvtc -b 7 -name sp_dev_term -e tmux attach -d -t dev"
        (resource =? "sp_dev_term")
@@ -250,7 +250,6 @@ nsps sysInfo = [
         className =? "Plugin-container")
        doCenterFloat
     ]
-  where [w, h] = map (toRational . ($ sysInfo)) [screenWidth, screenHeight]
 
 isMenu :: Query Bool
 isMenu = isInProperty "_NET_WM_WINDOW_TYPE" "_NET_WM_WINDOW_TYPE_MENU"
@@ -262,7 +261,7 @@ myTFloats  = ["glxgears", "Event Tester"]
 myTCFloats = ["Clementine image viewer"]
 myRIgnores = ["stalonetray", "desktop_window"]
 myCSinks   = ["Dwarf_Fortress"]
-myNSPHook = namedScratchpadManageHook . nsps
+myNSPHook = namedScratchpadManageHook nsps
 myAppsHook = composeAll . concat $ [
     [className =? c --> doFloat       | c <- myCFloats],
     [title     =? t --> doFloat       | t <- myTFloats],
@@ -287,7 +286,7 @@ myAppsHook = composeAll . concat $ [
     [isDialog     --> doCenterFloat]
     ]
 
-myManageHook sysInfo = myAppsHook <+> manageDocks <+> manageSpawn <+> myNSPHook sysInfo
+myManageHook sysInfo = myAppsHook <+> manageDocks <+> manageSpawn <+> myNSPHook
 
 myKeymap :: [(String, X ())]
 myKeymap = [
@@ -399,14 +398,13 @@ myKeymap = [
                       ++ "' -sb '" ++ myFgColor ++ "' -sf '" ++ myOtherFgColor ++ "'")
     ]
 
-namedScratchpadsKeymap :: SystemInfo -> [(String, X ())]
-namedScratchpadsKeymap sysInfo = [
-  ("M-p", openNamedScratchpad "terminal"),
-  ("M-o", openNamedScratchpad "dev-terminal"),
-  ("M-i", openNamedScratchpad "image-viewer"),
-  ("M-m", openNamedScratchpad "video-player")
-  ]
-  where openNamedScratchpad = namedScratchpadAction $ nsps sysInfo
+namedScratchpadsKeymap :: [(String, X ())]
+namedScratchpadsKeymap =
+  [ ("M-p", ns "terminal")
+  , ("M-o", ns "dev-terminal")
+  , ("M-i", ns "image-viewer")
+  , ("M-m", ns "video-player")
+  ] where ns = namedScratchpadAction nsps
 
 myMultimediaKeymap :: HostName -> [(String, X ())]
 myMultimediaKeymap "desktop" = [
