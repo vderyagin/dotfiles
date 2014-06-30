@@ -51,10 +51,12 @@ data SystemInfo = SystemInfo { homeDirectory :: FilePath
 scrWidth :: HostName -> Int
 scrWidth "thinkpad" = 1600
 scrWidth "desktop"  = 1920
+scrWidth hostName = error $ "unknown hostname: " ++ hostName
 
 scrHeight :: HostName -> Int
 scrHeight "thinkpad" = 900
 scrHeight "desktop"  = 1080
+scrHeight hostName = error $ "unknown hostname: " ++ hostName
 
 getSystemInfo :: IO SystemInfo
 getSystemInfo = do
@@ -227,11 +229,11 @@ myLayoutHook = avoidStruts .
 nsps :: [NamedScratchpad]
 nsps = [
     NS "terminal"
-       "urxvtc -geometry 117x38 -w 10 -name sp_term -e sh -c 'tmux attach -d -t main || tmux new -s main'"
+       "urxvtc -geometry 117x38 -w 10 -name sp_term -e sh -c 'tmux attach -t main || tmux -q source-file ~/.tmux.main.conf \\; attach -t main'"
        (resource =? "sp_term")
        doCenterFloat,
     NS "dev-terminal"
-       "urxvtc -b 7 -name sp_dev_term -e sh -c 'tmux attach -d -t dev || tmux new -s dev'"
+       "urxvtc -b 7 -name sp_dev_term -e sh -c 'tmux attach -t dev || tmux -q source-file ~/.tmux.dev.conf \\; attach-session -t dev'"
        (resource =? "sp_dev_term")
        doFullFloat,
     NS "image-viewer"
