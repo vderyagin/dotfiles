@@ -97,7 +97,6 @@ myConfig dz sysInfo = foldl additionalKeysP conf myKeyMaps
     myKeyMaps = [ myKeymap
                 , namedScratchpadsKeymap
                 , myMultimediaKeymap host
-                , myLanguageKeymap
                 ]
     home = homeDirectory sysInfo
     host = localHostName sysInfo
@@ -379,6 +378,10 @@ myKeymap = [
     ("M-x p", raiseNextMaybe (spawnHere "pcmanfm") (className =? "Pcmanfm")),
     ("M-x t", raiseNextMaybe (spawnHere "transmission-gtk") (title =? "Transmission")),
 
+    ("M-x l e", spawn "emxkb 0"),
+    ("M-x l u", spawn "emxkb 1"),
+    ("M-x l r", spawn "emxkb 2"),
+
     ("M-a", shellPromptHere myXPConfig),
     ("M-g", goToSelected myGSConfig),
 
@@ -451,13 +454,6 @@ myMultimediaKeymap "thinkpad" = [
 
     ("<XF86Sleep>", spawn "sudo pm-suspend")
     ]
-
-myLanguageKeymap ::  [(String, X ())]
-myLanguageKeymap =
-  [ ("M-x l e", spawn "emxkb 0")
-  , ("M-x l u", spawn "emxkb 1")
-  , ("M-x l r", spawn "emxkb 2")
-  ]
 
 myAdditionalKeymap :: XConfig Layout -> [(String, X ())]
 myAdditionalKeymap conf = [
