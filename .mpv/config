@@ -16,6 +16,8 @@ af=scaletempo
 
 ass-use-margins=yes
 
+cache-default=10000
+
 [protocol.dvd]
 deinterlace=yes
 
