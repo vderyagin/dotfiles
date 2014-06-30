@@ -71,8 +71,8 @@ getSystemInfo = do
 main :: IO ()
 main = do
     sysInfo <- getSystemInfo
-    spawnPipe . myClock $ screenWidth sysInfo
-    dz <- spawnPipe myStatusBar
+    _       <- spawnPipe . myClock $ screenWidth sysInfo
+    dz      <- spawnPipe myStatusBar
 
     xmonad $ withUrgencyHook NoUrgencyHook $ myConfig dz sysInfo
 
@@ -97,7 +97,8 @@ myConfig dz sysInfo = foldl additionalKeysP conf myKeyMaps
     myKeyMaps = [ myKeymap
                 , namedScratchpadsKeymap
                 , myMultimediaKeymap host
-                , myLanguageKeymap host ]
+                , myLanguageKeymap
+                ]
     home = homeDirectory sysInfo
     host = localHostName sysInfo
     checkKM = checkKeymap $ myConfig dz sysInfo
@@ -451,15 +452,11 @@ myMultimediaKeymap "thinkpad" = [
     ("<XF86Sleep>", spawn "sudo pm-suspend")
     ]
 
-myLanguageKeymap :: HostName -> [(String, X ())]
-myLanguageKeymap "desktop" =
-  [ ("<XF86MenuKB>",   spawn "set_keyboard_layout")
-  , ("M-<XF86MenuKB>", spawn "set_keyboard_layout english")
-  ]
-
-myLanguageKeymap "thinkpad" =
-  [ ("<XF86Launch1>",   spawn "set_keyboard_layout")
-  , ("M-<XF86Launch1>", spawn "set_keyboard_layout english")
+myLanguageKeymap ::  [(String, X ())]
+myLanguageKeymap =
+  [ ("M-x l e", spawn "emxkb 0")
+  , ("M-x l u", spawn "emxkb 1")
+  , ("M-x l r", spawn "emxkb 2")
   ]
 
 myAdditionalKeymap :: XConfig Layout -> [(String, X ())]
