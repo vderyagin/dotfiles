@@ -1,10 +1,3 @@
-unlimit
-limit core 0
-limit -s coredumpsize 0
-umask 022
-
-export WORDCHARS=''
-
 autoload colors
 colors
 
