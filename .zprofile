@@ -41,6 +41,11 @@ if [ $EUID -ne 0 ]; then
     "${HOME}/misc/info"
     $infopath
   )
+else
+  path=(
+    "/home/vderyagin/.bin"
+    $path
+  )
 fi
 
 for var in path manpath infopath; do
