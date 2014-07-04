@@ -6,8 +6,8 @@ action_0
 quit q Escape
 toggle_menu m
 toggle_fullscreen f Return
-next_img n space
-prev_img p
+next_img n space period
+prev_img p comma
 save_image C-s
 delete Delete
 remove C-Delete
