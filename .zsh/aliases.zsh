@@ -1,7 +1,7 @@
 alias -s ebuild=em
 alias -s gif=animate
-alias -s torrent=torrentinfo
 alias -s pdf=mupdf
+alias -s torrent=torrentinfo
 
 for ext in htm html; do
   alias -s $ext=firefox
@@ -27,10 +27,11 @@ if [ ! -z $TMUX ]; then
   alias most="TERM='screen-256color' most -w"
 fi
 
-alias grep='grep --color=auto'
-alias ls='ls --group-directories-first --color=auto --classify'
-alias la='ls --almost-all'
 alias dirs='dirs -v'
+alias grep='grep --color=auto'
+alias hoogle='hoogle --colour'
+alias la='ls --almost-all'
+alias ls='ls --group-directories-first --color=auto --classify'
 
 autoload -U zmv
 alias mmv='noglob zmv -W'
@@ -39,9 +40,9 @@ if [ $EUID -ne 0 ]; then
   alias rfkill='/usr/sbin/rfkill'
 fi
 
-alias -g NUL='> /dev/null 2>&1'
+alias -g DISP='DISPLAY=:0.0'
 alias -g ENUL='2> /dev/null'
 alias -g ERR='2>>( sed --unbuffered --expression="s/.*/$fg_bold[red]&$reset_color/" 1>&2 )'
-alias -g PG="2>&1 | $PAGER"
 alias -g LC='| wc --lines'
-alias -g DISP='DISPLAY=:0.0'
+alias -g NUL='> /dev/null 2>&1'
+alias -g PG="2>&1 | $PAGER"
