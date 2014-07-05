@@ -1,3 +1,5 @@
+WORDCHARS=''
+
 autoload colors
 colors
 
