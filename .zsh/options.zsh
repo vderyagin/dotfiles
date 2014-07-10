@@ -8,10 +8,6 @@ autoload -U zcalc
 autoload -Uz url-quote-magic
 zle -N self-insert url-quote-magic
 
-unsetopt pushd_to_home
-setopt pushd_ignore_dups
-unsetopt auto_cd
-
 setopt hist_verify
 setopt bang_hist
 setopt hist_allow_clobber
@@ -23,20 +19,24 @@ setopt inc_append_history
 setopt share_history
 unsetopt hist_beep
 
+setopt auto_cd
 setopt auto_list
+setopt auto_pushd
 setopt auto_param_slash
 setopt brace_ccl
+setopt chase_links
 setopt extended_glob
 setopt interactive_comments
 setopt long_list_jobs
 setopt magic_equal_subst
 setopt notify
+setopt prompt_subst
+setopt pushd_ignore_dups
 setopt rec_exact
 setopt sh_word_split
 unsetopt beep
 unsetopt clobber
-
-setopt prompt_subst
+unsetopt pushd_to_home
 
 autoload -Uz vcs_info
 zstyle ':vcs_info:*' enable git cvs svn hg darcs

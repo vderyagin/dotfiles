@@ -45,4 +45,4 @@ alias -g ENUL='2> /dev/null'
 alias -g ERR='2>>( sed --unbuffered --expression="s/.*/$fg_bold[red]&$reset_color/" 1>&2 )'
 alias -g LC='| wc --lines'
 alias -g NUL='> /dev/null 2>&1'
-alias -g PG="2>&1 | $PAGER"
+alias -g PG='2>&1 | $PAGER'
