@@ -21,11 +21,17 @@ rename() {
 
 # print random integer from 1 to $1
 rand() {
+  if [ -z "$1" ]; then
+    echo "no argument specified"
+    return 1
+  fi
+
   local upper_bound=32767
+
   if (( $1 > 1 && $1 < upper_bound )); then
-    echo $(((RANDOM % $1) + 1))
+    echo $(( (RANDOM % $1) + 1 ))
   else
-    echo "number must be in range 2..${upper_bound}" >&2
+    echo "argument must be in range 2..${upper_bound}" >&2
     return 1
   fi
 }
