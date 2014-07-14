@@ -6,9 +6,10 @@ zmodload -i zsh/complist
 bindkey '^i' complete-word
 
 setopt menu_complete
+setopt glob_complete
 setopt complete_in_word
 
-zstyle ':completion:*' completer _expand _complete _ignored _approximate _correct
+zstyle ':completion:*' completer _expand _complete _ignored _approximate
 
 zstyle ':completion:*' format %B%d%b
 zstyle ':completion:*:warnings' format '%BNo matches%b: %d'

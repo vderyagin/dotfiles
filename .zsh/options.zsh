@@ -32,8 +32,8 @@ setopt magic_equal_subst
 setopt notify
 setopt prompt_subst
 setopt pushd_ignore_dups
+setopt rc_expand_param
 setopt rec_exact
-setopt sh_word_split
 unsetopt beep
 unsetopt clobber
 unsetopt pushd_to_home
