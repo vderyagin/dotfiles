@@ -2,7 +2,7 @@ bindkey -e                                # emacs-style bindings
 
 bindkey ' ' magic-space
 
-bindkey '\C-xu' universal-argument
+bindkey '\C-u' universal-argument
 bindkey '\e[2~' overwrite-mode            # INS
 
 bindkey '\eq' push-line-or-edit
