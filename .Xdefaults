@@ -59,6 +59,7 @@ URxvt*color15:              #ffffff
 
 
 Emacs*font:                 Consolas-12
+Emacs*horizontalScrollBars: off
 Emacs*verticalScrollBars:   off
 Emacs*menuBar:              off
 Emacs*toolBar:              0
