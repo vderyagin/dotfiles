@@ -35,3 +35,18 @@ rand() {
     return 1
   fi
 }
+
+zipdirs() {
+  for dir in $@; do
+    if [[ ! -d $dir ]]; then
+        echo "'${dir}' is not a directory" >&2
+        return 1
+    fi
+  done
+
+  for dir in $@; do
+    cd "$dir"
+    apack "../${dir}.zip" *
+    cd -
+  done
+}
