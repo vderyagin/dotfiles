@@ -2,7 +2,7 @@
 
 volstep=1
 volume=6
-softvol-max=300
+softvol-max=500
 
 framedrop=yes
 
