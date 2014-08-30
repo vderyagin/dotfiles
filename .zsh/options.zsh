@@ -11,7 +11,6 @@ zle -N self-insert url-quote-magic
 setopt hist_verify
 setopt bang_hist
 setopt hist_allow_clobber
-setopt hist_fcntl_lock
 setopt hist_ignore_space
 setopt hist_reduce_blanks
 setopt hist_save_no_dups hist_find_no_dups hist_ignore_all_dups
