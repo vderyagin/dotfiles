@@ -1,13 +1,12 @@
 # fs=yes
 
-volstep=1
-volume=6
+volstep=3
+volume=50
+softvol=no
 softvol-max=500
 
-framedrop=yes
-
 vo=xv
-ao=alsa
+ao=pulse
 
 slang=en,eng,uk,ukr,ru,rus
 alang=jpn,en,eng,uk,ukr,ru,rus
