@@ -1,0 +1,4 @@
+def_key "9"
+  volume_down
+def_key "0"
+  volume_up
