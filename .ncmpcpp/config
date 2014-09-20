@@ -14,7 +14,7 @@ selected_item_suffix = $9
 
 song_columns_list_format = "(25)[red]{a} (40)[black]{t} (30)[red]{b}(7f)[black]{l}"
 
-titles_visibility = yes
+titles_visibility = no
 ignore_leading_the = no
 mouse_support = no
 enable_window_title = no
