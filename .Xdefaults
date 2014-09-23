@@ -6,7 +6,7 @@ Xcursor*theme:              vanilla
 
 
 URxvt.perl-ext-common:  default,matcher
-URxvt.url-launcher:     firefox
+URxvt.url-launcher:     chromium
 URxvt.matcher.button:   2
 
 URxvt*font:                 xft:Consolas:Regular:pixelsize=15

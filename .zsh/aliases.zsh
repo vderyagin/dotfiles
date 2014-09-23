@@ -4,7 +4,7 @@ alias -s pdf=mupdf
 alias -s torrent=torrentinfo
 
 for ext in htm html; do
-  alias -s $ext=firefox
+  alias -s $ext=chromium
 done
 
 for ext in log nfo csv cue txt; do
