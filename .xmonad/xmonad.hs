@@ -85,7 +85,7 @@ myConfig dz sysInfo = foldl additionalKeysP conf myKeyMaps
       clickJustFocuses   = False,
       focusFollowsMouse  = False,
       focusedBorderColor = myFocusedBorderColor,
-      keys               = \c -> mkKeymap c (myAdditionalKeymap c),
+      keys               = mkKeymap <*> myAdditionalKeymap,
       layoutHook         = myLayoutHook,
       logHook            = dynamicLogWithPP $ myDzenPP dz home,
       manageHook         = myManageHook sysInfo,
@@ -272,7 +272,7 @@ myAppsHook = composeAll . concat $ [
     [className =? f --> doSink        | f <- myCSinks],
     [resource  =? i --> doIgnore      | i <- myRIgnores],
     [className =? "Chromium-browser" <||>
-     className =? "Firefox" --> doShift (myWs 1)],
+     className =? "Google-chrome-unstable" --> doShift (myWs 1)],
     [className =? "Firefox" <&&> resource /=? "Navigator" --> doCenterFloat],
     [resource  =? "VCLSalFrame" <||>
      resource  =? "VCLSalFrame.DocumentWindow" <||>
@@ -342,42 +342,31 @@ myKeymap = [
     ("M-e", screenWorkspace 1 >>= flip whenJust (windows . W.view)),
     ("M-S-e", screenWorkspace 1 >>= flip whenJust (windows . W.shift)),
 
-
     ("M-S-n",            refresh),
     ("M-S-m",            windows W.focusMaster),
     ("M-S-q",            io exitSuccess),
     ("M-S-a",            AL.launchApp myXPConfig (myTerminal ++ " -e")),
+
     ("M-<Print>",        spawn "scrot"),
     ("M-S-<Print>",      spawn "sleep 0.2 && scrot -s"),
     ("M-C-<Print>",      spawn "rake -g share_screenshot"),
 
-    ("M-x <U>", spawn "pmount-gui"),
-    ("M-x <D>", spawn "pmount-gui -u"),
-
-    ("M-x k m", spawn "killall -9 mplayer mpv"),
-    ("M-x k f", spawn "killall -9 firefox"),
     ("M-x k c", spawn "killall -9 chrome"),
     ("M-x k e", spawn "killall -9 emacs"),
+    ("M-x k f", spawn "killall -9 firefox"),
+    ("M-x k i", spawn "killall -9 feh"),
+    ("M-x k m", spawn "killall -9 mplayer mpv"),
 
     ("M-x m",     spawn "mpv tv:// -tv driver=v4l2:device=/dev/video0 -fps 60 -vf mirror,screenshot"),
     ("M-x M-m",   spawn "mpv tv:// -tv driver=v4l2:device=/dev/video0 -fps 60 -vf screenshot"),
     ("M-x M-e",   spawn "emacsclient -c -a ''"),
-    ("M-x M-f",   spawn "firefox -no-remote" >> windows (W.view (myWs 1))),
-    ("M-x M-c",   spawn "chromium" >> windows (W.view (myWs 1))),
-    ("M-x M-C-c", spawn "chromium --incognito" >> windows (W.view (myWs 1))),
-    ("M-x M-C-f", spawn "firefox -private-window" >> windows (W.view (myWs 1))),
-    ("M-x M-p",   spawnHere "pcmanfm"),
+    ("M-x M-c",   windows (W.view $ myWs 1) >> spawnHere "chromium-browser"),
+    ("M-x M-C-c", windows (W.view $ myWs 1) >> spawnHere "chromium-browser --incognito"),
+    ("M-x M-f",   windows (W.view $ myWs 1) >> spawnHere "firefox -no-remote"),
+    ("M-x M-C-f", windows (W.view $ myWs 1) >> spawnHere "firefox -private-window"),
 
     ("M-x e", raiseNextMaybe (spawn "emacsclient -c -a ''") (className =? "Emacs")),
-    ("M-x f", raiseNextMaybe (spawnHere "firefox" >> windows (W.view (myWs 1)))
-                             (className =? "Firefox" <&&> resource =? "Navigator")),
-    ("M-x c", raiseNextMaybe (spawn "chromium" >> windows (W.view (myWs 1)))
-                             (className =? "Chromium-browser")),
-    ("M-x q", raiseNextMaybe (spawn "qpdfview --unique" >> windows (W.view (myWs 6)))
-                             (className =? "Qpdfview")),
-    ("M-x r", raiseNextMaybe (spawn "fbreader" >> windows (W.view (myWs 6)))
-                             (className =? "Fbreader")),
-    ("M-x p", raiseNextMaybe (spawnHere "pcmanfm") (className =? "Pcmanfm")),
+    ("M-x c", raiseNextMaybe (windows (W.view $ myWs 1) >> spawnHere "chromium-browser") (className =? "Chromium-browser")),
     ("M-x t", raiseNextMaybe (spawnHere "transmission-gtk") (title =? "Transmission")),
 
     ("M-x l e", spawn "emxkb 0"),
