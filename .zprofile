@@ -29,6 +29,7 @@ if [ $EUID -ne 0 ]; then
     ${HOME}/.cask/bin
     ${HOME}/.rbenv/bin
     ${HOME}/misc/games/bin
+    /usr/lib64/go/bin
     $path
   )
 
