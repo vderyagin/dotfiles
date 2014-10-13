@@ -337,14 +337,14 @@ myKeymap = [
     ("M-<D>",            sendMessage $ Toggle REFLECTY),
     ("M-r",              sendMessage $ Toggle MIRROR),
 
-    ("M-S-n",            refresh),
-    ("M-S-m",            windows W.focusMaster),
-    ("M-S-q",            io exitSuccess),
-    ("M-S-a",            AL.launchApp myXPConfig (myTerminal ++ " -e")),
+    ("M-S-n", refresh),
+    ("M-S-m", windows W.focusMaster),
+    ("M-S-q", io exitSuccess),
+    ("M-S-a", AL.launchApp myXPConfig (myTerminal ++ " -e")),
 
-    ("M-<Print>",        spawn "scrot"),
-    ("M-S-<Print>",      spawn "sleep 0.2 && scrot -s"),
-    ("M-C-<Print>",      spawn "rake -g share_screenshot"),
+    ("M-<Print>",   spawn "scrot"),
+    ("M-S-<Print>", spawn "sleep 0.2 && scrot -s"),
+    ("M-C-<Print>", spawn "rake --system share_screenshot"),
 
     ("M-x k c", spawn "killall -9 chrome"),
     ("M-x k e", spawn "killall -9 emacs"),
@@ -352,17 +352,20 @@ myKeymap = [
     ("M-x k i", spawn "killall -9 feh"),
     ("M-x k m", spawn "killall -9 mplayer mpv"),
 
-    ("M-x m",     spawn "mpv tv:// -tv driver=v4l2:device=/dev/video0 -fps 60 -vf mirror,screenshot"),
-    ("M-x M-m",   spawn "mpv tv:// -tv driver=v4l2:device=/dev/video0 -fps 60 -vf screenshot"),
-    ("M-x M-e",   spawn "emacsclient -c -a ''"),
-    ("M-x M-c",   windows (W.view $ myWs 1) >> spawnHere "chromium-browser"),
-    ("M-x M-C-c", windows (W.view $ myWs 1) >> spawnHere "chromium-browser --incognito"),
+    ("M-x m",   spawn "mpv tv:// -tv driver=v4l2:device=/dev/video0 -fps 60 -vf mirror,screenshot"),
+    ("M-x M-m", spawn "mpv tv:// -tv driver=v4l2:device=/dev/video0 -fps 60 -vf screenshot"),
+
     ("M-x M-f",   windows (W.view $ myWs 1) >> spawnHere "firefox -no-remote"),
     ("M-x M-C-f", windows (W.view $ myWs 1) >> spawnHere "firefox -private-window"),
 
-    ("M-x e", raiseNextMaybe (spawn "emacsclient -c -a ''") (className =? "Emacs")),
-    ("M-x c", raiseNextMaybe (windows (W.view $ myWs 1) >> spawnHere "chromium-browser") (className =? "Chromium-browser")),
-    ("M-x t", raiseNextMaybe (spawnHere "transmission-gtk") (title =? "Transmission")),
+    ("M-x e",   raiseNextMaybe (spawn "emacsclient -c -a ''") (className =? "Emacs")),
+    ("M-x M-e", spawn "emacsclient -c -a ''"),
+
+    ("M-x c",     raiseNextMaybe (windows (W.view $ myWs 1) >> spawnHere "chromium-browser") (className =? "Chromium-browser")),
+    ("M-x M-c",   windows (W.view $ myWs 1) >> spawnHere "chromium-browser"),
+    ("M-x M-C-c", windows (W.view $ myWs 1) >> spawnHere "chromium-browser --incognito"),
+
+    ("M-x t", raiseNextMaybe (windows (W.view $ myWs 13) >> spawnHere "transmission-gtk") (title =? "Transmission")),
 
     ("M-x l e", spawn "emxkb 0"),
     ("M-x l u", spawn "emxkb 1"),
@@ -381,8 +384,7 @@ myKeymap = [
         ("", cycleThroughLayouts ["full", "horizontal", "vertical", "tabs", "grid"])
     ]),
 
-    ("M-q", spawn $ "ghc -e 'XMonad.recompile False >>= flip Control.Monad.unless System.Exit.exitFailure'"
-                  ++ " && killall -9 dzen2; xmonad --restart"),
+    ("M-q", spawn "ghc -e 'XMonad.recompile False >>= flip Control.Monad.unless System.Exit.exitFailure' && killall -9 dzen2; xmonad --restart"),
     ("M-d", spawnHere $ "dmenu_run -i -b -p 'Run:' -fn 'Consolas-12:normal' -l 10"
                       ++ " -nb '" ++ myOtherFgColor ++ "' -nf '" ++ myFgColor
                       ++ "' -sb '" ++ myFgColor ++ "' -sf '" ++ myOtherFgColor ++ "'")
