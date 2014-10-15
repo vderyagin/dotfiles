@@ -9,14 +9,16 @@ rcd() {
 }
 
 rename() {
-  local name="$1"
-  if [ -e "$1" ]; then
-    vared -c -p 'rename to: ' name
-    command mv -v "$1" "$name"
-  else
-    echo "file '$1' does not exist." 1>&2
-    return 1
-  fi
+  for name in $@; do
+    local prev="$name"
+    if [ -e "$prev" ]; then
+      vared -c -p 'rename to: ' name
+      command mv -v "$prev" "$name"
+    else
+      echo "file '$prev' does not exist." 1>&2
+      return 1
+    fi
+  done
 }
 
 # print random integer from 1 to $1
