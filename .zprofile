@@ -13,6 +13,10 @@ export READNULLCMD=$PAGER
 declare -T INFOPATH infopath
 
 if [ $EUID -ne 0 ]; then
+  if [[ $HOST == 'thinkpad' ]]; then
+    export MPD_HOST=desktop
+  fi
+
   export COPY_SHARED_DIR=${HOME}/Copy
 
   export GIST_PATH=${HOME}/repos/gists
