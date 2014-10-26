@@ -1,14 +1,5 @@
-volume=50
-softvol=no
-softvol-max=500
-
-vo=xv
-ao=pulse
-
 slang=en,eng,uk,ukr,ru,rus
 alang=jpn,en,eng,uk,ukr,ru,rus
-
-af=scaletempo
 
 ass-use-margins=yes
 
