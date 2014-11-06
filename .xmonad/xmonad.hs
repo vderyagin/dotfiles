@@ -367,6 +367,8 @@ myKeymap = [
 
     ("M-x t", raiseNextMaybe (windows (W.view $ myWs 13) >> spawnHere "transmission-gtk") (title =? "Transmission")),
 
+    ("M-x q", raiseNextMaybe (windows (W.view $ myWs 6) >> spawnHere "qpdfview") (className =? "Qpdfview")),
+
     ("M-x l e", spawn "emxkb 0"),
     ("M-x l u", spawn "emxkb 1"),
     ("M-x l r", spawn "emxkb 2"),
