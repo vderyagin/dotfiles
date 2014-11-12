@@ -18,7 +18,7 @@ setopt inc_append_history
 setopt share_history
 unsetopt hist_beep
 
-setopt auto_cd
+unsetopt auto_cd
 setopt auto_list
 setopt auto_pushd
 setopt auto_param_slash
