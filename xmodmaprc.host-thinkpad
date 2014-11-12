@@ -1,0 +1,28 @@
+! -*- mode: conf-xdefaults -*-
+
+! Set left Ctrl to Compose
+remove Control = Control_L
+keysym Control_L = Multi_key
+
+! Set Caps Lock to Ctrl
+remove Lock = Caps_Lock
+keysym Caps_Lock = Control_L
+add Control = Control_L
+
+! Swap Return and Control_R
+remove Control = Control_R
+keysym Control_R = Return
+keysym Return = Control_R
+add Control = Control_R
+
+! set keysym for Menu to be accessible from xmonad:
+keysym Menu = XF86MenuKB
+
+! Add some keys (for emxkb)
+! (numbers' values are just free keycodes)
+keycode 6272=F31
+keycode 6273=F32
+keycode 6274=F33
+
+! remap PrintScreen to Super
+keycode 107 = Super_R
