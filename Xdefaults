@@ -9,9 +9,9 @@ URxvt.perl-ext-common:  default,matcher
 URxvt.url-launcher:     chromium
 URxvt.matcher.button:   2
 
-URxvt*font:                 xft:Consolas:Regular:pixelsize=15
-URxvt*boldFont:             xft:Consolas:Bold:pixelsize=15
-URxvt*italicFont:           xft:Consolas:Italic:pixelsize=15
+URxvt*font:                 xft:Consolas:Regular:pixelsize=15,xft:DejaVu Sans Mono:Regular:pixelsize=15
+URxvt*boldFont:             xft:Consolas:Bold:pixelsize=15,xft:DejaVu Sans Mono:Bold:pixelsize=15
+URxvt*italicFont:           xft:Consolas:Italic:pixelsize=15,xft:DejaVu Sans Mono:Italic:pixelsize=15
 
 *cursorBlink:               False
 URxvt*transparent:          False
