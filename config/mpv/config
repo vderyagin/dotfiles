@@ -1,6 +1,8 @@
 slang=en,eng,uk,ukr,ru,rus
 alang=jpn,en,eng,uk,ukr,ru,rus
 
+audio-display=no
+
 ass-use-margins=yes
 
 cache-default=10000
