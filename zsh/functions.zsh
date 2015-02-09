@@ -41,8 +41,8 @@ rand() {
 zipdirs() {
   for dir in $@; do
     if [[ ! -d $dir ]]; then
-        echo "'${dir}' is not a directory" >&2
-        return 1
+      echo "'${dir}' is not a directory" >&2
+      return 1
     fi
   done
 
@@ -51,4 +51,27 @@ zipdirs() {
     apack "../${dir}.zip" *
     cd -
   done
+}
+
+podcasts_to_microsd() {
+  if [ ! "$(ls ~/Copy/podcasts)" ]; then
+    echo "No podcasts"
+    return 1
+  fi
+
+  local was_mounted=''
+
+  if [ -d /media/mmcblk0p1 ]; then
+    was_mounted='true'
+  else
+    pmount /dev/mmcblk0p1
+  fi
+
+  faster Copy/podcasts/* -D /media/mmcblk0p1
+
+  sync
+
+  if [ ! "$was_mounted" ]; then
+    pumount /dev/mmcblk0p1
+  fi
 }
