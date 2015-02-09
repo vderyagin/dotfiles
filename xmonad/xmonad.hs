@@ -349,7 +349,7 @@ myKeymap = [
     ("M-x k c", spawn "killall -9 chrome"),
     ("M-x k e", spawn "killall -9 emacs"),
     ("M-x k f", spawn "killall -9 firefox"),
-    ("M-x k i", spawn "killall -9 feh animate"),
+    ("M-x k i", spawn "killall -9 feh animate mcomix qcomicbook"),
     ("M-x k m", spawn "killall -9 mplayer mpv vlc"),
 
     ("M-x m",   spawn "mpv tv:// -tv driver=v4l2:device=/dev/video0 -fps 60 -vf mirror,screenshot"),
