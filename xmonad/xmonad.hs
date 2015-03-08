@@ -135,10 +135,11 @@ myWs = (myWorkspaces !!) . subtract 1
 
 cycleRecentWS' :: [KeySym] -> KeySym -> KeySym -> X ()
 cycleRecentWS' = cycleWindowSets options
-  where options w          = map (W.view `flip` w) (recentTags w)
-        recentTags w       = map W.tag $ tail (wss w) ++ [head (wss w)]
-        wss w              = filter isNotScratchpad $ W.workspaces w
-        isNotScratchpad ws = W.tag ws /= "NSP"
+  where options w            = map (W.view `flip` w) (recentTags w)
+        recentTags w         = map W.tag $ tail (wss w) ++ [head (wss w)]
+        wss w                = filter (not . isOnOtherScreen w) $ filter isNotScratchpad $ W.workspaces w
+        isOnOtherScreen w ws = W.tag ws `elem` map (W.tag . W.workspace) (W.visible w)
+        isNotScratchpad ws   = W.tag ws /= "NSP"
 
 myFgColor            = "#333333"
 myOtherFgColor       = "#d0d0d0"
