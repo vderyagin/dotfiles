@@ -7,6 +7,7 @@ case $1 in
   (xmonad|*)
     session=xmonad
     rake --system wp:random
+    ssh-add -l || ssh-add < /dev/null &
     xsetroot -cursor_name left_ptr &
     unclutter -root -idle 2 -noevents -jitter 3 &
     stalonetray &
